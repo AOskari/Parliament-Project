@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ParliamentProject</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_member">Next member</string>
+    <string name="search">Search..</string>
+    <string name="searchText">Search</string>
+    <string name="members_found">0 members found</string>
+    <!-- descriptions -->
+    <string name="partyLogo">Party logo</string>
+</resources>
