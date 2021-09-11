@@ -11,15 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 
 class MemberListFragment : Fragment() {
 
     private lateinit var binding: FragmentMemberListBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     // TODO: Fetch data from MP-API, and cache it for the duration of the usage of the app.
 
@@ -35,6 +32,7 @@ class MemberListFragment : Fragment() {
         binding.recyclerView.adapter = MemberListAdapter(testList)
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.setHasFixedSize(true)
+
 
         return binding.root
     }
