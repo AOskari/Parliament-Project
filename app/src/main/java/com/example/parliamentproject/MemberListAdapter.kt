@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.parliamentproject.data.Member
 import java.util.*
 import java.util.Calendar.YEAR
 
@@ -16,8 +17,9 @@ import java.util.Calendar.YEAR
  * It displays the found members of parliament in a clear and stylish list, containing their first and last name,
  * age, party and minister status.
  */
-class MemberListAdapter(private val membersList: List<MemberOfParliament>):
-    RecyclerView.Adapter<MemberListAdapter.MemberListViewHolder>() {
+class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHolder>() {
+
+    private var memberList = emptyList<Member>()
 
     /**
      * This function is called everytime a new row is created on the RecyclerView, and
@@ -37,20 +39,23 @@ class MemberListAdapter(private val membersList: List<MemberOfParliament>):
      *  is essentially used for setting the correct data into the RecycleView rows.
      */
     override fun onBindViewHolder(holder: MemberListViewHolder, position: Int) {
-        val currentItem = membersList[position]
+        val currentItem = memberList[position]
 
       //  holder.image.setImageResource(currentItem.picture) // TODO: Add image of party logic
         holder.memberName.text = "${currentItem.first} ${currentItem.last}"
         holder.memberStatusInfo.text = "Age: ${Calendar.getInstance().get(YEAR) - currentItem.bornYear}, " +
                 "${currentItem.party}, ${if (currentItem.minister) "minister" else ""}"
-
-
     }
 
     /**
      * This function is used for getting the size of the current list.
      */
-    override fun getItemCount() = membersList.size
+    override fun getItemCount() = memberList.size
+
+    fun setData(members: List<Member>) {
+        memberList = members
+        notifyDataSetChanged()
+    }
 
 
     // TODO: Create function which returns what party icon will be used based on the member's party.
