@@ -2,6 +2,7 @@ package com.example.parliamentproject.fragments
 
 import MemberOfParliament
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,9 @@ import com.example.parliamentproject.data.*
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
-
+/**
+ * A Fragment subclass, which displays all found members of parliament in a RecyclerView.
+ */
 class MemberListFragment : Fragment() {
 
     private lateinit var binding: FragmentMemberListBinding
@@ -41,23 +44,16 @@ class MemberListFragment : Fragment() {
         binding.recyclerView.setHasFixedSize(true)
 
 
-        // Setting an observer to the MemberViewModel instance.
+        // Setting an observer to the MemberViewModel instance which changes
+        // the data in the MemberListAdapter.
         memberViewModel.readAllData.observe(viewLifecycleOwner) { member ->
-            member.let { adapter.setData(member) }
+            member.let {
+                Log.d("Observer called", "$member")
+                adapter.setData(member) }
         }
 
         return binding.root
     }
 
-
-
-    // Will be used for inserting member data to the database from the retrieved list.
-    private fun insertDataToDatabase(list: List<Member>) {
-        for (i in 1 until list.size) {
-            val member = list[i]
-            memberViewModel.addMember(list[i])
-            println("Added ${member.first} + ${member.last} to the database")
-        }
-    }
 
 }

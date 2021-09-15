@@ -58,14 +58,6 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
     }
 
 
-    // TODO: Create function which returns what party icon will be used based on the member's party.
-    fun GetPartyIcon(member: MemberOfParliament) {
-        // create when expression for selecting corresponding party icon.
-
-
-    }
-
-
     class MemberListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.imageView)
         val memberName: TextView = view.findViewById(R.id.member_name)

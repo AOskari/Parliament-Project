@@ -1,50 +1,54 @@
 package com.example.parliamentproject.data
 
 import android.content.Context
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.parliamentproject.network.MembersApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 /**
  * A Singleton class, which is used for getting the instance of the Database.
+ * When the singleton is called the first time, the Database will get populated.
  */
 @Database(entities = [Member::class], version = 1, exportSchema = false)
 abstract class MemberDatabase : RoomDatabase() {
 
-    abstract fun memberDao() : MemberDao
+    abstract fun memberDao(): MemberDao
 
-
+    // Creating a Callback subclass mainly for populating the database when it is
+    // created the first time.
     private class MemberDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
 
+        // When the database is created, it is populated with the parsed JSON data.
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.memberDao())
+                    populateDB(database.memberDao())
                 }
             }
         }
 
-        // Used for populating the database with 2 test subjects.
-        suspend fun populateDatabase(memberDao: MemberDao) {
-            // Delete all content here.
-
-            memberDao.deleteAll()
-
-            var member1 = Member(1, 1, "Subject 1", "Test", "Party 1")
-            var member2 = Member(2, 2, "Subject 2", "Test", "Party 2")
-            var member3 = Member(3, 3, "Subject 3", "Test", "Party 3")
-            var member4 = Member(4, 4, "Subject 4", "Test", "Party 4")
-            memberDao.addMember(member1)
-            memberDao.addMember(member2)
-            memberDao.addMember(member3)
-            memberDao.addMember(member4)
+        // Fetches the JSON data and populates the Database with the parsed data.
+        suspend fun populateDB(memberDao: MemberDao) {
+            try {
+                val result = MembersApi.retrofitService.getProperties()
+                for (i in 1 until result.size) memberDao.addMember(result[i])
+                Log.d("Success", "List size is ${result.size}")
+            } catch (e: Exception) {
+                Log.d("Failure", "${e.message}")
+            }
         }
+
     }
 
     companion object {
@@ -57,10 +61,10 @@ abstract class MemberDatabase : RoomDatabase() {
         fun getDatabase(context: Context, scope: CoroutineScope): MemberDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        MemberDatabase::class.java,
-                        "member_database"
-                    )
+                    context.applicationContext,
+                    MemberDatabase::class.java,
+                    "member_database"
+                )
                     .addCallback(MemberDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
@@ -69,4 +73,5 @@ abstract class MemberDatabase : RoomDatabase() {
         }
 
     }
+
 }
