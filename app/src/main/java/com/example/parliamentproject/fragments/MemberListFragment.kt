@@ -39,14 +39,20 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
-
         adapter = MemberListAdapter()
 
+
         // Setting the adapter and layoutManager to the RecyclerView
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.setHasFixedSize(true)
+
+        // Setting an onClickListener which opens the settings DialogFragment.
+        binding.settingsButton.setOnClickListener {
+            var settingsFragment = SettingsFragment()
+            settingsFragment.show(childFragmentManager, "settingsDialog")
+        }
 
 
         val searchview = binding.searchview

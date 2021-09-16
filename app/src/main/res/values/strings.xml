@@ -6,6 +6,12 @@
     <string name="search">Search..</string>
     <string name="searchText">Search</string>
     <string name="members_found">0 members found</string>
+    <string name="settings">Filter settings</string>
+    <string name="showMen">Show men</string>
+    <string name="showWomen">Show women</string>
+    <string name="showAll">Show all</string>
+    <string name="back">Back</string>
+
     <!-- descriptions -->
     <string name="partyLogo">Party logo</string>
 </resources>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#1167b1</color>
-    <color name="colorSecondary">#2a9df4</color>
-    <color name="colorSecondary2">#d0efff</color>
+    <color name="colorSecondary">	#9370DB</color>
+    <color name="colorSecondary2">#FF6200EE</color>
 
     <color name="buttonPrimary">#00008b</color>
     <color name="buttonSecondary">#0000d8</color>
 
+    <color name="transparent">#00000000</color>
     <color name="textColor">#FF000000</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
