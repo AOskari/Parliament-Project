@@ -1,30 +1,35 @@
 package com.example.parliamentproject.fragments
 
-import MemberOfParliament
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 /**
  * A Fragment subclass, which displays all found members of parliament in a RecyclerView.
  */
-class MemberListFragment : Fragment() {
+class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentMemberListBinding
+    private lateinit var adapter : MemberListAdapter
+
+    /**
+     * Search settings. These are controlled by togglebuttons.
+     */
+    private var showAll = false
+    private var showMen = true
+    private var showWomen = true
+
+    private var ageRange = 1..100
 
     private val memberViewModel : MemberViewModel by viewModels {
         MemberViewModelFactory((activity?.application as MPApplication).repository)
@@ -36,7 +41,7 @@ class MemberListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
 
-        val adapter = MemberListAdapter()
+        adapter = MemberListAdapter()
 
         // Setting the adapter and layoutManager to the RecyclerView
         binding.recyclerView.adapter = adapter
@@ -44,16 +49,48 @@ class MemberListFragment : Fragment() {
         binding.recyclerView.setHasFixedSize(true)
 
 
-        // Setting an observer to the MemberViewModel instance which changes
-        // the data in the MemberListAdapter.
-        memberViewModel.readAllData.observe(viewLifecycleOwner) { member ->
-            member.let {
-                Log.d("Observer called", "$member")
-                adapter.setData(member) }
-        }
+        val searchview = binding.searchview
+        searchview.setOnQueryTextListener(this) // This = The declared onQueryText functions below
 
         return binding.root
     }
 
+    /**
+     * @onQueryTextSubmit
+     * @onQueryTextChange
+     * Handles the searchview input. If there is no input, the RecyclerView will be empty.
+     */
+    override fun onQueryTextSubmit(query: String): Boolean {
+        if (query != null && (query != "" || showAll)) getByParameter(query)
+        else adapter.setData(emptyList())
+        return true
+    }
+    override fun onQueryTextChange(query: String): Boolean {
+        if (query != null && (query != "" || showAll)) getByParameter(query)
+        else adapter.setData(emptyList())
+        return true
+    }
 
+    /**
+     * Searches the database according to the SearchView's input field.
+     */
+    private fun getByParameter(query: String) {
+        val searchQuery = "%$query%"
+        memberViewModel.getByParameter(searchQuery).observe(this, { list ->
+            list.let {
+                adapter.setData(it)
+            }
+        })
+    }
+
+    /**
+     * Functions for adjusting settings.
+     */
+    private fun toggleShowAll() = showAll != showAll
+    private fun toggleShowMen() = showMen != showMen
+    private fun toggleShowWomen() = showWomen != showWomen
+
+    private fun setAgeRange(min: Int, max: Int) {
+        ageRange = min..max
+    }
 }

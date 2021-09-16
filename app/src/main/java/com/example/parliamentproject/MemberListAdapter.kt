@@ -1,6 +1,5 @@
 package com.example.parliamentproject
 
-import MemberOfParliament
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,10 @@ import java.util.Calendar.YEAR
  */
 class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHolder>() {
 
-    private var memberList = emptyList<Member>()
+    private var memberList : List<Member> = emptyList<Member>()
 
     /**
-     * This function is called everytime a new row is created on the RecyclerView, and
+     * Called everytime a new row is created on the RecyclerView, and
      * is responsible for the creation of the RecyclerView rows.
       */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberListViewHolder {
@@ -35,7 +34,7 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
 
 
     /**
-     * This function is called repeatedly when scrolling or updating the RecyclerView with new data, and
+     * Called constantly when scrolling or updating the RecyclerView with new data, and
      *  is essentially used for setting the correct data into the RecycleView rows.
      */
     override fun onBindViewHolder(holder: MemberListViewHolder, position: Int) {
@@ -48,16 +47,23 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
     }
 
     /**
-     * This function is used for getting the size of the current list.
+     * Returns the size of the current list.
      */
     override fun getItemCount() = memberList.size
 
+
+    /**
+     * Updates the data in the memberList variable.
+     */
     fun setData(members: List<Member>) {
         memberList = members
         notifyDataSetChanged()
     }
 
 
+    /**
+     * Defines the content of each row on the RecycleView.
+     */
     class MemberListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.imageView)
         val memberName: TextView = view.findViewById(R.id.member_name)

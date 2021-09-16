@@ -12,9 +12,7 @@ class MemberRepository(private val memberDao: MemberDao) {
     // to get a LiveData object containing a list of Member objects.
     val readAllData: LiveData<List<Member>> = memberDao.readAllData()
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun addMember(member: Member) {
-        memberDao.addMember(member)
-    }
+    fun getByParameter(param: String) = memberDao.getByParameter(param)
+
+    suspend fun addMember(member: Member) = memberDao.addMember(member)
 }
