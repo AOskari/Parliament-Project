@@ -29,7 +29,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var adapter : MemberListAdapter
 
     // Contains the parties selected in settings. Gets updated onResume.
-    private var chosenParties = arrayOf<String>()
+    private var chosenParties = listOf<String>()
 
     /**
      * Search settings. These are controlled by togglebuttons.
@@ -92,11 +92,11 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     /**
-     * Searches the database according to the SearchView's input field.
+     * Searches the database according to the SearchView's input field and the settings.
      */
     private fun getByParameter(query: String) {
         val searchQuery = "%$query%"
-        memberViewModel.getByParameter(searchQuery).observe(this, { list ->
+        memberViewModel.getMembers(searchQuery, chosenParties).observe(this, { list ->
             list.let {
                 adapter.setData(it)
             }
@@ -113,7 +113,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun updateSettings() {
         try {
             val args: MemberListFragmentArgs by navArgs()
-            chosenParties = args.chosenParties
+            chosenParties = args.chosenParties.toList()
 
             Log.d("Success", "Arguments found, updated settings")
         } catch (e: Exception) {

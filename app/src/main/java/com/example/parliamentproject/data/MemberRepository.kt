@@ -12,7 +12,7 @@ class MemberRepository(private val memberDao: MemberDao) {
     // to get a LiveData object containing a list of Member objects.
     val readAllData: LiveData<List<Member>> = memberDao.readAllData()
 
-    fun getByParameter(param: String) = memberDao.getByParameter(param)
+    fun getMembers(param: String, parties: List<String>) = memberDao.getMembers(param, parties)
 
     suspend fun addMember(member: Member) = memberDao.addMember(member)
 }

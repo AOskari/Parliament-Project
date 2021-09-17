@@ -41,13 +41,13 @@ class SettingsFragment : DialogFragment() {
 
         val list = mutableListOf<String>()
 
-        if (binding.kdpRadio.isChecked) list.add("kdp")
+        if (binding.kdpRadio.isChecked) list.add("kd")
         if (binding.keskRadio.isChecked) list.add("kesk")
         if (binding.kokRadio.isChecked) list.add("kok")
         if (binding.liikRadio.isChecked) list.add("liik")
         if (binding.psRadio.isChecked) list.add("ps")
-        if (binding.rRadio.isChecked) list.add("rkp")
-        if (binding.sdRadio.isChecked) list.add("sdp")
+        if (binding.rRadio.isChecked) list.add("r")
+        if (binding.sdRadio.isChecked) list.add("sd")
         if (binding.vasRadio.isChecked) list.add("vas")
         if (binding.vihrRadio.isChecked) list.add("vihr")
 

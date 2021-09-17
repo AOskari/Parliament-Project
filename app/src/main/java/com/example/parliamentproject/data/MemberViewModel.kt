@@ -24,7 +24,7 @@ class MemberViewModel(private val repository: MemberRepository): ViewModel() {
     /**
      * Calls the getByParameter function of the MemberRepository.
      */
-    fun getByParameter(param: String) = repository.getByParameter(param)
+    fun getMembers(param: String, parties: List<String>) = repository.getMembers(param, parties)
 
 
 }
