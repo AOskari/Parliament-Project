@@ -41,13 +41,13 @@ class MemberInfoFragment : Fragment() {
         binding.age.text = "${Calendar.getInstance().get(Calendar.YEAR) - rndMemb.bornYear} years old"
 
         when (rndMemb.party) {
-            "kdp" -> binding.partyImage.setImageResource(R.drawable.kdp)
+            "kd" -> binding.partyImage.setImageResource(R.drawable.kdp)
             "kesk" -> binding.partyImage.setImageResource(R.drawable.kesk)
             "kok" -> binding.partyImage.setImageResource(R.drawable.kok)
             "liik" -> binding.partyImage.setImageResource(R.drawable.liik)
             "ps" -> binding.partyImage.setImageResource(R.drawable.ps)
-            "rkp" -> binding.partyImage.setImageResource(R.drawable.rkp)
-            "sdp" -> binding.partyImage.setImageResource(R.drawable.sdp)
+            "r" -> binding.partyImage.setImageResource(R.drawable.rkp)
+            "sd" -> binding.partyImage.setImageResource(R.drawable.sdp)
             "vas" -> binding.partyImage.setImageResource(R.drawable.vas)
             "vihr" -> binding.partyImage.setImageResource(R.drawable.vihr)
         }

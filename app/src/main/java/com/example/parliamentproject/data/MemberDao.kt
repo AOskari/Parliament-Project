@@ -24,7 +24,7 @@ interface MemberDao {
     /**
      * Selects data from the member_Table filtered by the parameter.
      */
-    @Query("SELECT * FROM member_table WHERE first LIKE :param OR last LIKE :param")
+    @Query("SELECT * FROM member_table WHERE (first LIKE :param OR last LIKE :param)")
     fun getByParameter(param: String): LiveData<List<Member>>
 
     /**

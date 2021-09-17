@@ -8,7 +8,7 @@
             <gradient
                 android:startColor="@color/colorPrimary"
                 android:endColor="@color/colorSecondary"
-                android:angle="0" />
+                android:angle="45" />
 
             <corners android:bottomRightRadius="5dp" android:bottomLeftRadius="5dp"/>
             <stroke android:color="@color/black" android:width="0dp"/>

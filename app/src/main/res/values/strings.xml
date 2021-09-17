@@ -10,7 +10,19 @@
     <string name="showMen">Show men</string>
     <string name="showWomen">Show women</string>
     <string name="showAll">Show all</string>
+
+    <!-- Parliament parties -->
     <string name="back">Back</string>
+    <string name="kdp">KDP</string>
+    <string name="kesk">Kesk</string>
+    <string name="kok">Kok</string>
+    <string name="liik">Liik</string>
+    <string name="ps">PS</string>
+    <string name="r">R</string>
+    <string name="sd">SD</string>
+    <string name="vas">Vas</string>
+    <string name="vihr">Vihr</string>
+
 
     <!-- descriptions -->
     <string name="partyLogo">Party logo</string>

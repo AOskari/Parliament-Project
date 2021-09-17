@@ -1,89 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout android:layout_width="match_parent"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:id="@+id/settingsRelativeLayout">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/settingsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="10dp"
-        android:layout_gravity="center"
-        android:background="@drawable/custom_background"
-        tools:context="fragments.SettingsFragment">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/settingsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_background"
+            android:elevation="10dp"
+            tools:context="fragments.SettingsFragment">
 
-        <TextView
-            android:id="@+id/settingsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:textStyle="bold"
-            android:text="@string/settings"
-            android:textColor="@color/black"
-            android:fontFamily="@font/century_gothic_font"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <RadioGroup
-            android:id="@+id/settingsRadiogroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingsTitle">
-
-            <RadioButton
+            <TextView
+                android:id="@+id/settingsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/century_gothic_font"
+                android:text="@string/settings"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@string/showMen" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
+
+            <ToggleButton
+                android:id="@+id/kdpRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:fontFamily="@font/century_gothic_font"
+                android:text="@string/kdp"
                 android:textStyle="bold"
-                android:layout_marginTop="32dp"
-                android:text="@string/showWomen" />
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/rRadio"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
 
-            <RadioButton
+            <ToggleButton
+                android:id="@+id/keskRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:fontFamily="@font/century_gothic_font"
+                android:text="@string/kesk"
+                android:checked="true"
                 android:textStyle="bold"
-                android:layout_marginTop="32dp"
-                android:text="@string/showAll" />
+                app:layout_constraintBottom_toTopOf="@+id/settingsBack"
+                app:layout_constraintStart_toStartOf="@+id/liikRadio"
+                app:layout_constraintTop_toBottomOf="@+id/kokRadio" />
 
-        </RadioGroup>
+            <ToggleButton
+                android:id="@+id/kokRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/kok"
+                android:textStyle="bold"
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/keskRadio"
+                app:layout_constraintStart_toStartOf="@+id/liikRadio"
+                app:layout_constraintTop_toBottomOf="@+id/liikRadio" />
 
-        <Button
-            android:id="@+id/settingsBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@color/colorSecondary2"
-            android:backgroundTint="@color/colorSecondary2"
-            android:text="@string/back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <ToggleButton
+                android:id="@+id/liikRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/liik"
+                android:textStyle="bold"
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/kokRadio"
+                app:layout_constraintStart_toStartOf="@+id/psRadio"
+                app:layout_constraintTop_toBottomOf="@+id/psRadio" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ToggleButton
+                android:id="@+id/psRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/ps"
+                android:textStyle="bold"
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/liikRadio"
+                app:layout_constraintStart_toStartOf="@+id/vihrRadio"
+                app:layout_constraintTop_toBottomOf="@+id/vihrRadio" />
 
-</RelativeLayout>
+            <ToggleButton
+                android:id="@+id/rRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/r"
+                android:textStyle="bold"
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/sdRadio"
+                app:layout_constraintStart_toStartOf="@+id/kdpRadio"
+                app:layout_constraintTop_toBottomOf="@+id/kdpRadio" />
 
+            <ToggleButton
+                android:id="@+id/sdRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/sd"
+                android:textStyle="bold"
+                android:checked="true"
+                app:layout_constraintBottom_toTopOf="@+id/vasRadio"
+                app:layout_constraintStart_toStartOf="@+id/rRadio"
+                app:layout_constraintTop_toBottomOf="@+id/rRadio" />
+
+            <ToggleButton
+                android:id="@+id/vasRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/vas"
+                android:checked="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/vihrRadio"
+                app:layout_constraintStart_toStartOf="@+id/sdRadio"
+                app:layout_constraintTop_toBottomOf="@+id/sdRadio" />
+
+            <ToggleButton
+                android:id="@+id/vihrRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="@string/vihr"
+                android:checked="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/psRadio"
+                app:layout_constraintStart_toStartOf="@+id/vasRadio"
+                app:layout_constraintTop_toBottomOf="@+id/vasRadio" />
+
+            <Button
+                android:id="@+id/settingsBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@color/colorSecondary2"
+                android:backgroundTint="@color/colorSecondary2"
+                android:text="@string/back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
+</layout>

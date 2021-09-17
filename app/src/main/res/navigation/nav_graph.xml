@@ -13,15 +13,15 @@
             android:id="@+id/action_memberInfoFragment_to_memberListFragment"
             app:destination="@id/memberListFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/settingsFragment"
         android:name="com.example.parliamentproject.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
-            android:id="@+id/action_settingsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </fragment>
+            android:id="@+id/action_settingsFragment_to_memberListFragment"
+            app:destination="@id/memberListFragment" />
+    </dialog>
     <fragment
         android:id="@+id/memberListFragment"
         android:name="com.example.parliamentproject.fragments.MemberListFragment"
@@ -33,15 +33,18 @@
         <action
             android:id="@+id/action_memberListFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_memberListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <argument
+            android:name="chosenParties"
+            app:argType="string[]" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.parliamentproject.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_mainFragment_to_memberListFragment"
             app:destination="@id/memberListFragment" />

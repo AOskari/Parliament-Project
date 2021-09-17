@@ -1,6 +1,7 @@
 package com.example.parliamentproject.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +9,16 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
+import okhttp3.internal.Internal.instance
 
 /**
  * A Fragment subclass, which displays all found members of parliament in a RecyclerView.
@@ -22,12 +28,12 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentMemberListBinding
     private lateinit var adapter : MemberListAdapter
 
+    // Contains the parties selected in settings. Gets updated onResume.
+    private var chosenParties = arrayOf<String>()
+
     /**
      * Search settings. These are controlled by togglebuttons.
      */
-    private var showAll = false
-    private var showMen = true
-    private var showWomen = true
 
     private var ageRange = 1..100
 
@@ -39,8 +45,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        adapter = MemberListAdapter()
 
+        adapter = MemberListAdapter()
 
         // Setting the adapter and layoutManager to the RecyclerView
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
@@ -50,8 +56,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
-            var settingsFragment = SettingsFragment()
-            settingsFragment.show(childFragmentManager, "settingsDialog")
+            val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
+            findNavController().navigate(action)
         }
 
 
@@ -62,17 +68,25 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     /**
+     * Updates the settings when the Fragment is resumed.
+     */
+    override fun onResume() {
+        super.onResume()
+        updateSettings()
+    }
+
+    /**
      * @onQueryTextSubmit
      * @onQueryTextChange
      * Handles the searchview input. If there is no input, the RecyclerView will be empty.
      */
     override fun onQueryTextSubmit(query: String): Boolean {
-        if (query != null && (query != "" || showAll)) getByParameter(query)
+        if (query != null && (query != "")) getByParameter(query)
         else adapter.setData(emptyList())
         return true
     }
     override fun onQueryTextChange(query: String): Boolean {
-        if (query != null && (query != "" || showAll)) getByParameter(query)
+        if (query != null && (query != "")) getByParameter(query)
         else adapter.setData(emptyList())
         return true
     }
@@ -89,14 +103,21 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         })
     }
 
-    /**
-     * Functions for adjusting settings.
-     */
-    private fun toggleShowAll() = showAll != showAll
-    private fun toggleShowMen() = showMen != showMen
-    private fun toggleShowWomen() = showWomen != showWomen
-
     private fun setAgeRange(min: Int, max: Int) {
         ageRange = min..max
+    }
+
+    /**
+     * Attempts to update the settings with arguments.
+     */
+    private fun updateSettings() {
+        try {
+            val args: MemberListFragmentArgs by navArgs()
+            chosenParties = args.chosenParties
+
+            Log.d("Success", "Arguments found, updated settings")
+        } catch (e: Exception) {
+            Log.d("Exception", "No arguments found, settings not updated")
+        }
     }
 }

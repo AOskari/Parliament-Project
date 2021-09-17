@@ -43,7 +43,7 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
       //  holder.image.setImageResource(currentItem.picture) // TODO: Add image of party logic
         holder.memberName.text = "${currentItem.first} ${currentItem.last}"
         holder.memberStatusInfo.text = "Age: ${Calendar.getInstance().get(YEAR) - currentItem.bornYear}, " +
-                "${currentItem.party}, ${if (currentItem.minister) "minister" else ""}"
+                "${currentItem.party}${if (currentItem.minister) ", minister" else ""}"
     }
 
     /**
