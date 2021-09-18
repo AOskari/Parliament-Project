@@ -10,12 +10,16 @@ import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
+import com.example.parliamentproject.data.Settings
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
+import java.lang.Exception
 
 class SettingsFragment : DialogFragment() {
 
     private lateinit var binding : FragmentSettingsBinding
+    private lateinit var settings : Settings
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +30,7 @@ class SettingsFragment : DialogFragment() {
 
         binding.settingsBack.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToMemberListFragment(
-                chosenParties() )
+                updateSettings() )
             findNavController().navigate(action)
             dismiss()
         }
@@ -37,20 +41,42 @@ class SettingsFragment : DialogFragment() {
         return binding.root
     }
 
-    private fun chosenParties(): Array<String> {
+    /**
+     * Updates the settings and the radio buttons accordingly when the fragment is resumed.
+     */
+    override fun onResume() {
+        super.onResume()
 
-        val list = mutableListOf<String>()
+        try {
+            val args: MemberListFragmentArgs by navArgs()
+            settings = args.settings
 
-        if (binding.kdpRadio.isChecked) list.add("kd")
-        if (binding.keskRadio.isChecked) list.add("kesk")
-        if (binding.kokRadio.isChecked) list.add("kok")
-        if (binding.liikRadio.isChecked) list.add("liik")
-        if (binding.psRadio.isChecked) list.add("ps")
-        if (binding.rRadio.isChecked) list.add("r")
-        if (binding.sdRadio.isChecked) list.add("sd")
-        if (binding.vasRadio.isChecked) list.add("vas")
-        if (binding.vihrRadio.isChecked) list.add("vihr")
+        } catch (e: Exception) {
+            settings = Settings()
+        }
 
-        return list.toTypedArray()
+        binding.kdpRadio.isChecked = settings.showKDP
+        binding.keskRadio.isChecked = settings.showKesk
+        binding.kokRadio.isChecked = settings.showKok
+        binding.liikRadio.isChecked = settings.showLiik
+        binding.psRadio.isChecked = settings.showPS
+        binding.rRadio.isChecked = settings.showRKP
+        binding.sdRadio.isChecked = settings.showSDP
+        binding.vasRadio.isChecked = settings.showVas
+        binding.vihrRadio.isChecked = settings.showVihr
+
+    }
+
+
+    /**
+     * Updates the settings with the radio buttons and returns it.
+     */
+    private fun updateSettings(): Settings {
+
+        settings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
+            binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
+            binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
+
+        return settings
     }
 }

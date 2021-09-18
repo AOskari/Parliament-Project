@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -17,7 +18,8 @@ import java.lang.Exception
  * A Singleton class, which is used for getting the instance of the Database.
  * When the singleton is called the first time, the Database will get populated.
  */
-@Database(entities = [Member::class], version = 1, exportSchema = false)
+@Database(entities = [Member::class, Settings::class],
+    version = 2, autoMigrations = [AutoMigration(from = 1, to = 2)])
 abstract class MemberDatabase : RoomDatabase() {
 
     abstract fun memberDao(): MemberDao

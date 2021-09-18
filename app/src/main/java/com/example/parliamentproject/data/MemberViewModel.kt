@@ -27,6 +27,12 @@ class MemberViewModel(private val repository: MemberRepository): ViewModel() {
     fun getMembers(param: String, parties: List<String>) = repository.getMembers(param, parties)
 
 
+    fun getSettings() = repository.getSettings()
+
+    fun updateSettings(settings: Settings) = repository.updateSettings(settings)
+
+    fun addSettings(settings: Settings) = repository.addSettings(settings)
+
 }
 
 class MemberViewModelFactory(private val repository: MemberRepository) : ViewModelProvider.Factory {

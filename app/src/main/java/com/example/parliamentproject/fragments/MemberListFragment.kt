@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
+import kotlinx.coroutines.launch
 import okhttp3.internal.Internal.instance
 
 /**
@@ -27,6 +29,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentMemberListBinding
     private lateinit var adapter : MemberListAdapter
+
+    private lateinit var settings : Settings
 
     // Contains the parties selected in settings. Gets updated onResume.
     private var chosenParties = listOf<String>()
@@ -47,6 +51,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View? {
 
         adapter = MemberListAdapter()
+        initializeSettings()
 
         // Setting the adapter and layoutManager to the RecyclerView
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
@@ -56,7 +61,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
-            val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
+            val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment(settings)
             findNavController().navigate(action)
         }
 
@@ -112,12 +117,20 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      */
     private fun updateSettings() {
         try {
-            val args: MemberListFragmentArgs by navArgs()
-            chosenParties = args.chosenParties.toList()
 
+            val args: MemberListFragmentArgs by navArgs()
+            settings = args.settings
             Log.d("Success", "Arguments found, updated settings")
         } catch (e: Exception) {
-            Log.d("Exception", "No arguments found, settings not updated")
+
+            settings = Settings()
+            Log.d("Exception", e.message.toString())
         }
+        chosenParties = settings.settingsAsList()
+    }
+
+    private fun initializeSettings() {
+        // Add fetching settings from database later
+        settings = Settings()
     }
 }

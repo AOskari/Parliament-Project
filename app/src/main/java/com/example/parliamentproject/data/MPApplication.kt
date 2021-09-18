@@ -5,8 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
 /**
- * An subclass of Application superclass, for instantiating the MemberDatabase
- * and the MemberRepository. this will be used in the AndroidManifest xml file.
+ * A subclass of Application superclass, for instantiating the MemberDatabase
+ * and the MemberRepository. this is used in AndroidManifest.
  */
 class MPApplication : Application() {
 

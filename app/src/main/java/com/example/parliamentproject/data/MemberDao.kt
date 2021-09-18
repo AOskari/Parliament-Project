@@ -1,10 +1,7 @@
 package com.example.parliamentproject.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * A data access object interface, which describes each Query to the database.
@@ -12,6 +9,9 @@ import androidx.room.Query
 @Dao
 interface MemberDao {
 
+    /**
+     * Adds a Member to the member_table.
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addMember(member: Member)
 
@@ -27,9 +27,24 @@ interface MemberDao {
     @Query("SELECT * FROM member_table WHERE (first LIKE :param OR last LIKE :param) AND party IN (:parties)")
     fun getMembers(param: String, parties: List<String>): LiveData<List<Member>>
 
+
+
     /**
-     * Deletes all data from the member_Table
+     * Gets the settings current settings.
      */
-    @Query("DELETE FROM member_table")
-    fun deleteAll()
+    @Query("SELECT * FROM settings_table")
+    fun getSettings(): Settings
+
+    /**
+     * Updates the settings with the given data
+     */
+    @Update
+    fun updateSettings(settings: Settings)
+
+    /**
+     * Used for initializing settings.
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun addSettings(settings: Settings)
+
 }

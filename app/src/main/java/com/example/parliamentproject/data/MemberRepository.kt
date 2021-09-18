@@ -15,4 +15,11 @@ class MemberRepository(private val memberDao: MemberDao) {
     fun getMembers(param: String, parties: List<String>) = memberDao.getMembers(param, parties)
 
     suspend fun addMember(member: Member) = memberDao.addMember(member)
+
+
+    fun getSettings() = memberDao.getSettings()
+
+    fun updateSettings(settings: Settings) = memberDao.updateSettings(settings)
+
+    fun addSettings(settings: Settings) = memberDao.addSettings(settings)
 }
