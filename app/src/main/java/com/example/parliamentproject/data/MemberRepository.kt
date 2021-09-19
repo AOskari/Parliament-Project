@@ -12,14 +12,11 @@ class MemberRepository(private val memberDao: MemberDao) {
     // to get a LiveData object containing a list of Member objects.
     val readAllData: LiveData<List<Member>> = memberDao.readAllData()
 
-    fun getMembers(param: String, parties: List<String>) = memberDao.getMembers(param, parties)
+    fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberDao.getMembers(param, parties, minAge, maxAge)
 
     suspend fun addMember(member: Member) = memberDao.addMember(member)
-
-
+    
     fun getSettings() = memberDao.getSettings()
 
-    fun updateSettings(settings: Settings) = memberDao.updateSettings(settings)
-
-    fun addSettings(settings: Settings) = memberDao.addSettings(settings)
+    suspend fun updateSettings(settings: Settings) = memberDao.updateSettings(settings)
 }

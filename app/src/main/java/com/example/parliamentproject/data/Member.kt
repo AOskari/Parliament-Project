@@ -1,5 +1,6 @@
 package com.example.parliamentproject.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
@@ -18,7 +19,8 @@ data class Member(
     @Json(name = "picture") var picture: String = "",
     @Json(name = "twitter") var twitter: String = "",
     @Json(name = "bornYear") var bornYear: Int = 0,
-    @Json(name = "constituency") var constituency: String = ""
+    @Json(name = "constituency") var constituency: String = "",
+    var age : Int? = Calendar.getInstance().get(Calendar.YEAR) - bornYear
 ) {
 
     fun displayName() = "$first $last"

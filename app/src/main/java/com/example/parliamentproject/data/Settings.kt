@@ -1,6 +1,7 @@
 package com.example.parliamentproject.data
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
@@ -20,7 +21,9 @@ data class Settings (
     var showRKP: Boolean = true,
     var showSDP: Boolean = true,
     var showVas: Boolean = true,
-    var showVihr: Boolean = true
+    var showVihr: Boolean = true,
+    var minAge : Int = 18,
+    var maxAge : Int = 100
         )  : Parcelable {
 
     /**

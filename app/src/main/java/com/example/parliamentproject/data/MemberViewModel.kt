@@ -12,7 +12,6 @@ class MemberViewModel(private val repository: MemberRepository): ViewModel() {
 
     // Getting the LiveData object from the MemberRepository
     val readAllData: LiveData<List<Member>> = repository.readAllData
-    private val _response = MutableLiveData<String>()
 
     /**
      * Calls the addMember function of the MemberRepository.
@@ -22,16 +21,14 @@ class MemberViewModel(private val repository: MemberRepository): ViewModel() {
     }
 
     /**
-     * Calls the getByParameter function of the MemberRepository.
+     * Calls the getMembers function of the MemberRepository.
      */
-    fun getMembers(param: String, parties: List<String>) = repository.getMembers(param, parties)
+    fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = repository.getMembers(param, parties, minAge, maxAge)
 
 
     fun getSettings() = repository.getSettings()
 
-    fun updateSettings(settings: Settings) = repository.updateSettings(settings)
-
-    fun addSettings(settings: Settings) = repository.addSettings(settings)
+    suspend fun updateSettings(settings: Settings) = repository.updateSettings(settings)
 
 }
 

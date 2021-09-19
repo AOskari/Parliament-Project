@@ -19,7 +19,11 @@ import java.lang.Exception
  * When the singleton is called the first time, the Database will get populated.
  */
 @Database(entities = [Member::class, Settings::class],
-    version = 2, autoMigrations = [AutoMigration(from = 1, to = 2)])
+    version = 4, autoMigrations = [
+        AutoMigration(from = 1, to = 2),
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4)
+    ])
 abstract class MemberDatabase : RoomDatabase() {
 
     abstract fun memberDao(): MemberDao
@@ -40,9 +44,11 @@ abstract class MemberDatabase : RoomDatabase() {
             }
         }
 
-        // Fetches the JSON data and populates the Database with the parsed data.
+        // Fetches the JSON data and populates the Database with the parsed data, as well adds a settings object.
         suspend fun populateDB(memberDao: MemberDao) {
+            val settings = Settings()
             try {
+                memberDao.addSettings(settings)
                 val result = MembersApi.retrofitService.getProperties()
                 for (i in 1 until result.size) memberDao.addMember(result[i])
                 Log.d("Success", "List size is ${result.size}")

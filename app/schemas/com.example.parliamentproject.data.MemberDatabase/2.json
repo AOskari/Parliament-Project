@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "a07601b4395dd12fef5afbaa7e59aed0",
+    "identityHash": "4ba1b57769e24ebca4cbbca0cafcac8b",
     "entities": [
       {
         "tableName": "member_table",
@@ -80,7 +80,7 @@
       },
       {
         "tableName": "settings_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`showKDP` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `showKesk` INTEGER NOT NULL, `showKok` INTEGER NOT NULL, `showLiik` INTEGER NOT NULL, `showPS` INTEGER NOT NULL, `showRKP` INTEGER NOT NULL, `showSDP` INTEGER NOT NULL, `showVas` INTEGER NOT NULL, `showVihr` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`showKDP` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `showKesk` INTEGER NOT NULL, `showKok` INTEGER NOT NULL, `showLiik` INTEGER NOT NULL, `showPS` INTEGER NOT NULL, `showRKP` INTEGER NOT NULL, `showSDP` INTEGER NOT NULL, `showVas` INTEGER NOT NULL, `showVihr` INTEGER NOT NULL, `minAge` INTEGER NOT NULL, `maxAge` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "showKDP",
@@ -135,6 +135,18 @@
             "columnName": "showVihr",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "minAge",
+            "columnName": "minAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAge",
+            "columnName": "maxAge",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -150,7 +162,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a07601b4395dd12fef5afbaa7e59aed0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ba1b57769e24ebca4cbbca0cafcac8b')"
     ]
   }
 }

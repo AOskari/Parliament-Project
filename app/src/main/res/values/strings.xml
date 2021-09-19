@@ -23,6 +23,17 @@
     <string name="vas">Vas</string>
     <string name="vihr">Vihr</string>
 
+    <!-- Parliament party names for switch widgets -->
+    <string name="switchkdp">KDP  </string>
+    <string name="switchkesk">Kesk  </string>
+    <string name="switchkok">Kok  </string>
+    <string name="switchliik">Liik  </string>
+    <string name="switchps">PS  </string>
+    <string name="switchr">R  </string>
+    <string name="switchsd">SD  </string>
+    <string name="switchvas">Vas  </string>
+    <string name="switchvihr">Vihr  </string>
+
 
     <!-- descriptions -->
     <string name="partyLogo">Party logo</string>

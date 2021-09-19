@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "a07601b4395dd12fef5afbaa7e59aed0",
+    "identityHash": "9f142b9d782c1a306075c6e142d90b07",
     "entities": [
       {
         "tableName": "member_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`personNumber` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `seatNumber` INTEGER NOT NULL, `last` TEXT NOT NULL, `first` TEXT NOT NULL, `party` TEXT NOT NULL, `minister` INTEGER NOT NULL, `picture` TEXT NOT NULL, `twitter` TEXT NOT NULL, `bornYear` INTEGER NOT NULL, `constituency` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`personNumber` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `seatNumber` INTEGER NOT NULL, `last` TEXT NOT NULL, `first` TEXT NOT NULL, `party` TEXT NOT NULL, `minister` INTEGER NOT NULL, `picture` TEXT NOT NULL, `twitter` TEXT NOT NULL, `bornYear` INTEGER NOT NULL, `constituency` TEXT NOT NULL, `age` INTEGER)",
         "fields": [
           {
             "fieldPath": "personNumber",
@@ -67,6 +67,12 @@
             "columnName": "constituency",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "age",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -80,7 +86,7 @@
       },
       {
         "tableName": "settings_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`showKDP` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `showKesk` INTEGER NOT NULL, `showKok` INTEGER NOT NULL, `showLiik` INTEGER NOT NULL, `showPS` INTEGER NOT NULL, `showRKP` INTEGER NOT NULL, `showSDP` INTEGER NOT NULL, `showVas` INTEGER NOT NULL, `showVihr` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`showKDP` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `showKesk` INTEGER NOT NULL, `showKok` INTEGER NOT NULL, `showLiik` INTEGER NOT NULL, `showPS` INTEGER NOT NULL, `showRKP` INTEGER NOT NULL, `showSDP` INTEGER NOT NULL, `showVas` INTEGER NOT NULL, `showVihr` INTEGER NOT NULL, `minAge` INTEGER NOT NULL, `maxAge` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "showKDP",
@@ -135,6 +141,18 @@
             "columnName": "showVihr",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "minAge",
+            "columnName": "minAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAge",
+            "columnName": "maxAge",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -150,7 +168,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a07601b4395dd12fef5afbaa7e59aed0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f142b9d782c1a306075c6e142d90b07')"
     ]
   }
 }

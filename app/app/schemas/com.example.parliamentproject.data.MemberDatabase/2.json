@@ -135,6 +135,18 @@
             "columnName": "showVihr",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "minAge",
+            "columnName": "minAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAge",
+            "columnName": "maxAge",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {

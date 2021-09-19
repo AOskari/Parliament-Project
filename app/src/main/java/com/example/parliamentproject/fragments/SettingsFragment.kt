@@ -9,17 +9,30 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
+import com.example.parliamentproject.data.MPApplication
+import com.example.parliamentproject.data.MemberViewModel
+import com.example.parliamentproject.data.MemberViewModelFactory
 import com.example.parliamentproject.data.Settings
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SettingsFragment : DialogFragment() {
 
     private lateinit var binding : FragmentSettingsBinding
-    private lateinit var settings : Settings
+    private var settings = Settings()
+    private val applicationScope = CoroutineScope(SupervisorJob())
+
+    private val memberViewModel : MemberViewModel by viewModels {
+        MemberViewModelFactory((activity?.application as MPApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,9 +41,11 @@ class SettingsFragment : DialogFragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
 
+        updateRadioButtons()
+
         binding.settingsBack.setOnClickListener {
-            val action = SettingsFragmentDirections.actionSettingsFragmentToMemberListFragment(
-                updateSettings() )
+            updateSettings()
+            val action = SettingsFragmentDirections.actionSettingsFragmentToMemberListFragment()
             findNavController().navigate(action)
             dismiss()
         }
@@ -46,13 +61,34 @@ class SettingsFragment : DialogFragment() {
      */
     override fun onResume() {
         super.onResume()
+        updateRadioButtons()
+    }
 
-        try {
-            val args: MemberListFragmentArgs by navArgs()
-            settings = args.settings
 
-        } catch (e: Exception) {
-            settings = Settings()
+    /**
+     * Updates the settings with the radio buttons and returns it.
+     */
+    private fun updateSettings() {
+
+        settings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
+            binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
+            binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
+
+        memberViewModel.let {
+            applicationScope.launch {
+                memberViewModel.updateSettings(settings)
+            }
+        }
+    }
+
+    /**
+     * Updates the radiobuttons.
+     */
+    private fun updateRadioButtons() {
+        memberViewModel.let {
+            applicationScope.launch {
+                settings = memberViewModel.getSettings() as Settings
+            }
         }
 
         binding.kdpRadio.isChecked = settings.showKDP
@@ -65,18 +101,5 @@ class SettingsFragment : DialogFragment() {
         binding.vasRadio.isChecked = settings.showVas
         binding.vihrRadio.isChecked = settings.showVihr
 
-    }
-
-
-    /**
-     * Updates the settings with the radio buttons and returns it.
-     */
-    private fun updateSettings(): Settings {
-
-        settings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
-            binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
-            binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
-
-        return settings
     }
 }

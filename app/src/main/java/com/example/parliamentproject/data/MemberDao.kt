@@ -24,8 +24,8 @@ interface MemberDao {
     /**
      * Selects data from the member_Table filtered by the parameter.
      */
-    @Query("SELECT * FROM member_table WHERE (first LIKE :param OR last LIKE :param) AND party IN (:parties)")
-    fun getMembers(param: String, parties: List<String>): LiveData<List<Member>>
+    @Query("SELECT * FROM member_table WHERE (first LIKE :param OR last LIKE :param) AND party IN (:parties) AND age >= :minAge AND age <= :maxAge")
+    fun getMembers(param: String, parties: List<String>, minAge: Int, maxAge: Int): LiveData<List<Member>>
 
 
 

@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +16,9 @@ import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import okhttp3.internal.Internal.instance
 
 /**
  * A Fragment subclass, which displays all found members of parliament in a RecyclerView.
@@ -35,9 +33,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // Contains the parties selected in settings. Gets updated onResume.
     private var chosenParties = listOf<String>()
-
-    private var ageRange = 1..100
-
+    private val applicationScope = CoroutineScope(SupervisorJob())
     private val memberViewModel : MemberViewModel by viewModels {
         MemberViewModelFactory((activity?.application as MPApplication).repository)
     }
@@ -48,7 +44,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View? {
 
         adapter = MemberListAdapter()
-        initializeSettings()
+        updateSettings()
 
         // Setting the adapter and layoutManager to the RecyclerView
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_list, container, false)
@@ -74,6 +70,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onResume() {
         super.onResume()
         updateSettings()
+        Log.d("onResume", "MemberListFragment onResume called")
     }
 
     /**
@@ -82,12 +79,12 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      * Handles the SearchView input. If there is no input, the RecyclerView will be empty.
      */
     override fun onQueryTextSubmit(query: String): Boolean {
-        if (query != null && (query != "")) getByParameter(query)
+        if (query != null && (query != "")) getMembers(query)
         else adapter.setData(emptyList())
         return true
     }
     override fun onQueryTextChange(query: String): Boolean {
-        if (query != null && (query != "")) getByParameter(query)
+        if (query != null && (query != "")) getMembers(query)
         else adapter.setData(emptyList())
         return true
     }
@@ -95,36 +92,33 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     /**
      * Searches the database according to the SearchView's input field and the settings.
      */
-    private fun getByParameter(query: String) {
+    private fun getMembers(query: String) {
         val searchQuery = "%$query%"
-        memberViewModel.getMembers(searchQuery, chosenParties).observe(this, { list ->
+        memberViewModel.getMembers(searchQuery, chosenParties, settings.minAge, settings.maxAge).observe(this, { list ->
             list.let {
                 adapter.setData(it)
             }
         })
     }
 
-    private fun setAgeRange(min: Int, max: Int) {
-        ageRange = min..max
-    }
 
     /**
-     * Attempts to update the settings with arguments.
+     * Fetches the Settings data from the Room Database.
      */
     private fun updateSettings() {
-        try {
-            val args: MemberListFragmentArgs by navArgs()
-            settings = args.settings
-            Log.d("Success", "Arguments found, updated settings")
-        } catch (e: Exception) {
-            settings = Settings()
-            Log.d("Exception", "${e.message.toString()}. Applying default settings.")
-        }
-        chosenParties = settings.settingsAsList()
-    }
 
-    private fun initializeSettings() {
-        // Add fetching settings from database later
-        settings = Settings()
+        try {
+
+            let {
+                applicationScope.launch {
+                    settings = memberViewModel.getSettings() as Settings
+                }
+            }
+            chosenParties = settings.settingsAsList()
+
+            Log.d("Success", "Fetching setting data was succesful. Updating settings.")
+        } catch (e: Exception) {
+            Log.d("Exception", "${ e.message.toString() }. Settings not updated.")
+        }
     }
 }
