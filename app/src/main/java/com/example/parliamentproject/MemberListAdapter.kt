@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.data.Member
+import com.example.parliamentproject.databinding.CustomRowBinding
+import com.example.parliamentproject.databinding.FragmentMemberListBinding
 import java.util.*
 import java.util.Calendar.YEAR
 
@@ -18,32 +20,25 @@ import java.util.Calendar.YEAR
  */
 class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHolder>() {
 
-    private var memberList : List<Member> = emptyList<Member>()
+    private lateinit var binding : CustomRowBinding
+    private var memberList : List<Member> = emptyList()
 
     /**
      * Called everytime a new row is created on the RecyclerView, and
      * is responsible for the creation of the RecyclerView rows.
       */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberListViewHolder {
-
-        // Getting the View object from the parent ViewGroup, in this case MainActivity
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_row, parent, false)
-
-        return MemberListViewHolder(view)
+        binding = CustomRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MemberListViewHolder(binding)
     }
-
 
     /**
      * Called constantly when scrolling or updating the RecyclerView with new data, and
      *  is essentially used for setting the correct data into the RecycleView rows.
      */
     override fun onBindViewHolder(holder: MemberListViewHolder, position: Int) {
-        val currentItem = memberList[position]
-
+        binding.member = memberList[position]
       //  holder.image.setImageResource(currentItem.picture) // TODO: Add image of party logic
-        holder.memberName.text = "${currentItem.first} ${currentItem.last}"
-        holder.memberStatusInfo.text = "Age: ${Calendar.getInstance().get(YEAR) - currentItem.bornYear}, " +
-                "${currentItem.party}${if (currentItem.minister) ", minister" else ""}"
     }
 
     /**
@@ -51,6 +46,7 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
      */
     override fun getItemCount() = memberList.size
 
+    override fun getItemViewType(position: Int) = position
 
     /**
      * Updates the data in the memberList variable.
@@ -64,10 +60,10 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
     /**
      * Defines the content of each row on the RecycleView.
      */
-    class MemberListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.imageView)
-        val memberName: TextView = view.findViewById(R.id.member_name)
-        val memberStatusInfo: TextView = view.findViewById(R.id.member_statusInfo)
+    class MemberListViewHolder(binding: CustomRowBinding) : RecyclerView.ViewHolder(binding.root) {
+        val image: ImageView = binding.imageView
+        val memberName: TextView = binding.memberName
+        val memberStatusInfo: TextView = binding.memberStatusInfo
     }
 
 }

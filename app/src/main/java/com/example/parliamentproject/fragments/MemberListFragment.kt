@@ -27,17 +27,14 @@ import okhttp3.internal.Internal.instance
  */
 class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
+    // TODO: Add Settings to the database and implement update logic for it.
+
     private lateinit var binding: FragmentMemberListBinding
     private lateinit var adapter : MemberListAdapter
-
     private lateinit var settings : Settings
 
     // Contains the parties selected in settings. Gets updated onResume.
     private var chosenParties = listOf<String>()
-
-    /**
-     * Search settings. These are controlled by togglebuttons.
-     */
 
     private var ageRange = 1..100
 
@@ -65,7 +62,6 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
             findNavController().navigate(action)
         }
 
-
         val searchview = binding.searchview
         searchview.setOnQueryTextListener(this) // This = The declared onQueryText functions below
 
@@ -83,7 +79,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     /**
      * @onQueryTextSubmit
      * @onQueryTextChange
-     * Handles the searchview input. If there is no input, the RecyclerView will be empty.
+     * Handles the SearchView input. If there is no input, the RecyclerView will be empty.
      */
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query != null && (query != "")) getByParameter(query)
@@ -117,14 +113,12 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      */
     private fun updateSettings() {
         try {
-
             val args: MemberListFragmentArgs by navArgs()
             settings = args.settings
             Log.d("Success", "Arguments found, updated settings")
         } catch (e: Exception) {
-
             settings = Settings()
-            Log.d("Exception", e.message.toString())
+            Log.d("Exception", "${e.message.toString()}. Applying default settings.")
         }
         chosenParties = settings.settingsAsList()
     }
