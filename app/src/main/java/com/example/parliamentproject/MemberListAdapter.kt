@@ -1,16 +1,13 @@
 package com.example.parliamentproject
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parliamentproject.data.Member
+import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.databinding.CustomRowBinding
-import com.example.parliamentproject.databinding.FragmentMemberListBinding
 import java.util.*
-import java.util.Calendar.YEAR
 
 
 /**

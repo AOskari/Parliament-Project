@@ -1,4 +1,4 @@
-package com.example.parliamentproject.data
+package com.example.parliamentproject.data.data_classes
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

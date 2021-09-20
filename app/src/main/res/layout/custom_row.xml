@@ -4,7 +4,7 @@
     <data>
         <variable
             name="member"
-            type="com.example.parliamentproject.data.Member" />
+            type="com.example.parliamentproject.data.data_classes.Member" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

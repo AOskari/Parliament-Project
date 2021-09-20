@@ -10,11 +10,11 @@ import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
+import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -35,7 +35,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private var chosenParties = listOf<String>()
     private val applicationScope = CoroutineScope(SupervisorJob())
     private val memberViewModel : MemberViewModel by viewModels {
-        MemberViewModelFactory((activity?.application as MPApplication).repository)
+        MemberViewModelFactory((activity?.application as MPApplication).memberRepository,
+            (activity?.application as MPApplication).settingsRepository)
     }
 
     override fun onCreateView(
@@ -54,12 +55,18 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
-            val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment(settings)
+            val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
             findNavController().navigate(action)
         }
 
         val searchview = binding.searchview
         searchview.setOnQueryTextListener(this) // This = The declared onQueryText functions below
+
+        let {
+            applicationScope.launch {
+                memberViewModel.updateMembers()
+            }
+        }
 
         return binding.root
     }

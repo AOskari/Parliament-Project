@@ -2,13 +2,15 @@ package com.example.parliamentproject.data
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.parliamentproject.data.dao.MemberDao
+import com.example.parliamentproject.data.dao.SettingsDao
+import com.example.parliamentproject.data.data_classes.Member
+import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.network.MembersApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ import java.lang.Exception
 abstract class MemberDatabase : RoomDatabase() {
 
     abstract fun memberDao(): MemberDao
+    abstract fun settingsDao() : SettingsDao
 
     // Creating a Callback subclass mainly for populating the database when it is
     // created the first time.
@@ -39,16 +42,16 @@ abstract class MemberDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDB(database.memberDao())
+                    populateDB(database.memberDao(), database.settingsDao())
                 }
             }
         }
 
         // Fetches the JSON data and populates the Database with the parsed data, as well adds a settings object.
-        suspend fun populateDB(memberDao: MemberDao) {
+        suspend fun populateDB(memberDao: MemberDao, settingsDao: SettingsDao) {
             val settings = Settings()
             try {
-                memberDao.addSettings(settings)
+                settingsDao.addSettings(settings)
                 val result = MembersApi.retrofitService.getProperties()
                 for (i in 1 until result.size) memberDao.addMember(result[i])
                 Log.d("Success", "List size is ${result.size}")

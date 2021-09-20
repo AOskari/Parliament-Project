@@ -6,23 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.MemberViewModel
 import com.example.parliamentproject.data.MemberViewModelFactory
-import com.example.parliamentproject.data.Settings
+import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class SettingsFragment : DialogFragment() {
 
@@ -31,7 +27,8 @@ class SettingsFragment : DialogFragment() {
     private val applicationScope = CoroutineScope(SupervisorJob())
 
     private val memberViewModel : MemberViewModel by viewModels {
-        MemberViewModelFactory((activity?.application as MPApplication).repository)
+        MemberViewModelFactory((activity?.application as MPApplication).memberRepository,
+            (activity?.application as MPApplication).settingsRepository)
     }
 
     override fun onCreateView(

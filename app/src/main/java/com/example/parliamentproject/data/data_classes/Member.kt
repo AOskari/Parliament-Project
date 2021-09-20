@@ -1,4 +1,4 @@
-package com.example.parliamentproject.data
+package com.example.parliamentproject.data.data_classes
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,7 +1,9 @@
-package com.example.parliamentproject.data
+package com.example.parliamentproject.data.repositories
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import com.example.parliamentproject.data.dao.MemberDao
+import com.example.parliamentproject.data.data_classes.Member
+import com.example.parliamentproject.network.MembersApi
 
 /**
  * A Repository class, to handle data operations.
@@ -15,8 +17,10 @@ class MemberRepository(private val memberDao: MemberDao) {
     fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberDao.getMembers(param, parties, minAge, maxAge)
 
     suspend fun addMember(member: Member) = memberDao.addMember(member)
-    
-    fun getSettings() = memberDao.getSettings()
 
-    suspend fun updateSettings(settings: Settings) = memberDao.updateSettings(settings)
+    suspend fun updateMembers() {
+        memberDao.updateMembers(getMembersFromApi())
+    }
+
+    private suspend fun getMembersFromApi() = MembersApi.retrofitService.getProperties()
 }

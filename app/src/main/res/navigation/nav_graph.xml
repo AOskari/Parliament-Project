@@ -21,9 +21,6 @@
         <action
             android:id="@+id/action_settingsFragment_to_memberListFragment"
             app:destination="@id/memberListFragment" />
-        <argument
-            android:name="settings"
-            app:argType="com.example.parliamentproject.data.Settings" />
     </dialog>
     <fragment
         android:id="@+id/memberListFragment"
