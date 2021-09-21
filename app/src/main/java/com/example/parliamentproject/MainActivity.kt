@@ -38,12 +38,11 @@ class MainActivity : AppCompatActivity() {
         fragmentContainer = binding.fragmentContainerView
         bottomNav = binding.bottomNav
 
-
+/*
         workRequest = PeriodicWorkRequest.Builder(DatabaseUpdateWorker::class.java, 15, TimeUnit.HOURS).build()
-
         WorkManager.getInstance(applicationContext)
             .enqueue(workRequest)
-
+*/
 
         bottomNav.setupWithNavController(navController)
     }

@@ -1,12 +1,14 @@
 package com.example.parliamentproject.data.data_classes
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-
+@Parcelize
 @Entity(tableName = "member_table")
 data class Member(
     @PrimaryKey(autoGenerate = true)
@@ -21,7 +23,7 @@ data class Member(
     @Json(name = "bornYear") var bornYear: Int = 0,
     @Json(name = "constituency") var constituency: String = "",
     var age : Int? = Calendar.getInstance().get(Calendar.YEAR) - bornYear
-) {
+) : Parcelable {
 
     fun displayName() = "$first $last"
     fun statusInfo() = "Age: ${Calendar.getInstance().get(Calendar.YEAR) - bornYear}, " +

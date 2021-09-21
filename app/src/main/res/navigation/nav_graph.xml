@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_memberListFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_memberListFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -45,5 +48,16 @@
         <action
             android:id="@+id/action_mainFragment_to_memberListFragment"
             app:destination="@id/memberListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.example.parliamentproject.fragments.MemberFragment"
+        android:label="MemberFragment" >
+        <action
+            android:id="@+id/action_memberFragment_to_memberListFragment"
+            app:destination="@id/memberListFragment" />
+        <argument
+            android:name="member"
+            app:argType="com.example.parliamentproject.data.data_classes.Member" />
     </fragment>
 </navigation>

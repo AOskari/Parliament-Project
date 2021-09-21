@@ -1,5 +1,14 @@
 package com.example.parliamentproject.network
 
+import android.app.Activity
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.parliamentproject.R
 import com.example.parliamentproject.data.data_classes.Member
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -12,6 +21,10 @@ import retrofit2.http.GET
  */
 // The destination URL where the data will be fetched.
 private const val URL = " https://users.metropolia.fi/~peterh/"
+
+// The destination URL where the member images are fetched
+private const val IMG_URL = "https://avoindata.eduskunta.fi/"
+
 
 // Creating a instance of Moshi.
 private val moshi = Moshi.Builder()
@@ -38,5 +51,18 @@ object MembersApi {
     // Using by lazy to initialize the service only when it is needed.
     val retrofitService : MemberApiService by lazy {
         retrofit.create(MemberApiService::class.java)
+    }
+
+    /**
+     * Fetches the member's image utilizing Glide an setting it in the chosen ImageView.
+     */
+    fun setMemberImage(endpoint: String, imageView: ImageView, fragment: Fragment) {
+        GlideApp.with(fragment)
+            .load("$IMG_URL$endpoint")
+            .fitCenter()
+            .circleCrop()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_baseline_search_24)
+            .into(imageView)
     }
 }

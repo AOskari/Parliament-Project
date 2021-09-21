@@ -4,9 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.databinding.CustomRowBinding
+import com.example.parliamentproject.fragments.MemberListFragmentDirections
 import java.util.*
 
 
@@ -61,6 +65,11 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
         val image: ImageView = binding.imageView
         val memberName: TextView = binding.memberName
         val memberStatusInfo: TextView = binding.memberStatusInfo
+
+        val asd = binding.memberInfoButton.setOnClickListener {
+            val action = MemberListFragmentDirections.actionMemberListFragmentToMemberFragment(binding.member as Member)
+            Navigation.findNavController(itemView).navigate(action)
+        }
     }
 
 }

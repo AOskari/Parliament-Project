@@ -34,7 +34,8 @@ class MemberViewModel(private val memberRepository: MemberRepository, private va
 
 }
 
-class MemberViewModelFactory(private val repository: MemberRepository, private val settingsRepository: SettingsRepository) : ViewModelProvider.Factory {
+class MemberViewModelFactory(private val repository: MemberRepository,
+                             private val settingsRepository: SettingsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MemberViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
