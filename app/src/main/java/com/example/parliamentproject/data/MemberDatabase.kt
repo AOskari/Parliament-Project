@@ -1,5 +1,6 @@
 package com.example.parliamentproject.data
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.room.AutoMigration
@@ -7,6 +8,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.parliamentproject.MainActivity
 import com.example.parliamentproject.data.dao.MemberDao
 import com.example.parliamentproject.data.dao.SettingsDao
 import com.example.parliamentproject.data.data_classes.Member

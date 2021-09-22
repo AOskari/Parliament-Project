@@ -55,6 +55,7 @@ object MembersApi {
 
     /**
      * Fetches the member's image utilizing Glide an setting it in the chosen ImageView.
+     * By default, Glide caches the images.
      */
     fun setMemberImage(endpoint: String, imageView: ImageView, fragment: Fragment) {
         GlideApp.with(fragment)

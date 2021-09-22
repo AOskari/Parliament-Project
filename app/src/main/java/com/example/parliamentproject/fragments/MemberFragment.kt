@@ -38,6 +38,7 @@ class MemberFragment : Fragment() {
 
         val member = args.member
 
+        // Gets the image of the chosen MP and caches it.
         MembersApi.setMemberImage(member.picture, binding.memberPicture, this)
 
         binding.memberName.text = member.displayName()

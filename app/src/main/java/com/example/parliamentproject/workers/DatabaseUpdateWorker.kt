@@ -1,39 +1,55 @@
 package com.example.parliamentproject.workers
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.parliamentproject.data.MPApplication
+import com.example.parliamentproject.data.MemberDatabase
 import com.example.parliamentproject.data.MemberViewModel
 import com.example.parliamentproject.network.MembersApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 /**
  * A Worker subclass, which updates the member_table of the Room Database periodically.
  */
-class DatabaseUpdateWorker(context: Context, workerParameters: WorkerParameters,
-                           private val memberViewModel: MemberViewModel) : Worker(context, workerParameters) {
+class DatabaseUpdateWorker(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
+    private val mpApplication = context.applicationContext as MPApplication
+    private val repo = mpApplication.memberRepository
 
+    /**
+     * Called in intervals according to the set TimeUnit on the WorkManager.
+     */
     override fun doWork(): Result {
-        updateDatabase()
-        return Result.success()
+        return try {
+            updateDatabase()
+            Result.success()
+        } catch (e: Exception) {
+            Result.failure()
+        }
     }
 
+    /**
+     * Used for logging whenever the Worker has stopped.
+     */
     override fun onStopped() {
         super.onStopped()
         Log.d("Worker", "Worker has stopped.")
     }
 
-    fun updateDatabase() {
-        // Update database using MemberViewModel.
-
+    /**
+     * Updates the database by calling the MemberRepository's updateMembers function with a coroutine.
+     */
+    private fun updateDatabase() {
         let {
             applicationScope.launch {
-                memberViewModel.updateMembers()
+                repo.updateMembers()
             }
         }
 
