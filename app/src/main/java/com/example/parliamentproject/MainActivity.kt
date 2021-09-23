@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var fragmentContainer: FragmentContainerView
-    private lateinit var memberInfoFragment: MemberInfoFragment
     private lateinit var bottomNav : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     private fun navSetup() {
         val navFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navFragment.navController
-        memberInfoFragment = MemberInfoFragment()
         fragmentContainer = binding.fragmentContainerView
         bottomNav = binding.bottomNav
         bottomNav.setupWithNavController(navController)

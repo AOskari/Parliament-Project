@@ -10,6 +10,9 @@
     <string name="showMen">Show men</string>
     <string name="showWomen">Show women</string>
     <string name="showAll">Show all</string>
+    <string name="reviewTitle">Comment and rate</string>
+    <string name="reviewHint">Write an informal comment here</string>
+
 
     <!-- Parliament parties -->
     <string name="back">Back</string>
@@ -37,4 +40,10 @@
 
     <!-- descriptions -->
     <string name="partyLogo">Party logo</string>
+
+
+    <!-- MemberFragment strings -->
+    <string name="age">Age</string>
+    <string name="Seat_number">Seat</string>
+    <string name="minister">Minister</string>
 </resources>

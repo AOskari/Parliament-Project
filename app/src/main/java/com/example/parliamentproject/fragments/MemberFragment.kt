@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
 import com.example.parliamentproject.databinding.FragmentMemberBinding
 import com.example.parliamentproject.network.MembersApi
+import java.lang.reflect.Member
 
 /**
  * Displays the data of the chosen Member of Parliament.
@@ -17,6 +18,7 @@ import com.example.parliamentproject.network.MembersApi
 class MemberFragment : Fragment() {
 
     private lateinit var binding : FragmentMemberBinding
+    private lateinit var member: Member
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +43,27 @@ class MemberFragment : Fragment() {
         // Gets the image of the chosen MP and caches it.
         MembersApi.setMemberImage(member.picture, binding.memberPicture, this)
 
-        binding.memberName.text = member.displayName()
+        binding.memberName.text = "${member.displayName()} ${member.personNumber}"
+        binding.partyName.text = member.party
+        binding.ministerInfo2.text = if (member.minister) "Yes" else "No"
+
+        binding.seatInfo2.text = member.seatNumber.toString()
+        binding.ageInfo2.text = member.age.toString()
+        binding.twitterLink.text = if (member.twitter != "") member.twitter else "No Twitter"
+
+
+        when (member.party) {
+            "kd" -> setPartyName("Suomen Kristillisdemokraatit")
+            "kesk" -> setPartyName("Suomen Keskusta")
+            "kok" -> setPartyName("Kansallinen Kokoomus")
+            "liik" -> setPartyName("Liike Nyt")
+            "ps" -> setPartyName("Perussuomalaiset")
+            "r" -> setPartyName("Suomen ruotsalainen kansanpuolue")
+            "sd" -> setPartyName("Suomen Sosialidemokraattinen Puolue")
+            "vas" -> setPartyName("Vasemmistoliitto")
+            "vihr" -> setPartyName("Vihreä liitto")
+        }
     }
 
+    private fun setPartyName(name: String) { binding.partyName.text = name }
 }

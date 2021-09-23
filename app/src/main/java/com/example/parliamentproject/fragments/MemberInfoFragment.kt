@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
+import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.databinding.FragmentMemberInfoBinding
 import java.util.*
 
@@ -23,24 +25,24 @@ class MemberInfoFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_info, container, false)
-        binding.changeMember.setOnClickListener { changeMember() }
 
-        changeMember()
+        val args: MemberReviewFragmentArgs by navArgs()
+
+        changeMember(args.member)
 
         return binding.root
     }
 
 
-    fun changeMember() {
+    fun changeMember(member: Member) {
 
         var rndNumber = ParliamentMembersData.members.indices.random()
         val rndMemb : MemberOfParliament = ParliamentMembersData.members[rndNumber]
 
-        binding.memberName.text = "${rndMemb.first} ${rndMemb.last}"
-        binding.constituency.text = "${rndMemb.constituency}"
-        binding.age.text = "${Calendar.getInstance().get(Calendar.YEAR) - rndMemb.bornYear} years old"
+        binding.constituency.text = "${member.constituency}"
+        binding.age.text = "Age: ${Calendar.getInstance().get(Calendar.YEAR) - rndMemb.bornYear}"
 
-        when (rndMemb.party) {
+        when (member.party) {
             "kd" -> binding.partyImage.setImageResource(R.drawable.kdp)
             "kesk" -> binding.partyImage.setImageResource(R.drawable.kesk)
             "kok" -> binding.partyImage.setImageResource(R.drawable.kok)
