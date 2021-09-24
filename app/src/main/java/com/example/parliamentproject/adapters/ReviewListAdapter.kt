@@ -1,5 +1,7 @@
 package com.example.parliamentproject.adapters
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.parliamentproject.R
 import com.example.parliamentproject.data.data_classes.Review
 import com.example.parliamentproject.databinding.CustomReviewRowBinding
 
@@ -20,6 +23,9 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ReviewListViewHolder {
         binding = CustomReviewRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+
+
         return ReviewListViewHolder(binding)
     }
 
@@ -37,6 +43,7 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
             notifyItemChanged(position)
         }
 
+        setStars(reviewList[position])
     }
 
     override fun getItemCount() = reviewList.size
@@ -49,6 +56,20 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
         notifyDataSetChanged()
     }
 
+    /**
+     * Displays the rating as stars in the MemberFragment's RecyclerView.
+     */
+    fun setStars(review: Review) {
+
+        if (review.rating >= 1) binding.star1.setImageResource(R.drawable.star_filled)
+        if (review.rating >= 2) binding.star2.setImageResource(R.drawable.star_filled)
+        if (review.rating >= 3) binding.star3.setImageResource(R.drawable.star_filled)
+        if (review.rating >= 4) binding.star4.setImageResource(R.drawable.star_filled)
+        if (review.rating >= 5) binding.star5.setImageResource(R.drawable.star_filled)
+
+    }
+
+
     class ReviewListViewHolder(binding: CustomReviewRowBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.rowTitle
         val comment: TextView = binding.commentView
@@ -60,4 +81,5 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
         val star5: ImageView = binding.star5
 
     }
+
 }

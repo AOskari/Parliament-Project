@@ -1,19 +1,14 @@
 package com.example.parliamentproject
 
-import ParliamentMembersData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentContainerView
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
-import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.databinding.ActivityMainBinding
-import com.example.parliamentproject.fragments.MemberInfoFragment
 import com.example.parliamentproject.workers.DatabaseUpdateWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.concurrent.TimeUnit

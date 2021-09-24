@@ -97,6 +97,6 @@ class SettingsFragment : DialogFragment() {
         binding.sdRadio.isChecked = settings.showSDP
         binding.vasRadio.isChecked = settings.showVas
         binding.vihrRadio.isChecked = settings.showVihr
-
     }
+
 }

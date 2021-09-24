@@ -29,6 +29,13 @@ class MemberReviewFragment : DialogFragment() {
     private val applicationScope = CoroutineScope(SupervisorJob())
     private var rating = 0
 
+    private var star1Active = false
+    private var star2Active = false
+    private var star3Active = false
+    private var star4Active = false
+    private var star5Active = false
+
+
     private val reviewViewModel : ReviewViewModel by viewModels {
         ReviewViewModelFactory((activity?.application as MPApplication).reviewRepository)
     }
@@ -53,6 +60,8 @@ class MemberReviewFragment : DialogFragment() {
 
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        setRatingButtonListeners()
+
         return binding.root
     }
 
@@ -61,6 +70,15 @@ class MemberReviewFragment : DialogFragment() {
      * Closes the fragment after saving the content.
      */
     private fun saveReview() {
+
+        rating = when {
+            star5Active -> 5
+            star4Active -> 4
+            star4Active -> 3
+            star4Active -> 2
+            star4Active -> 1
+            else -> 0
+        }
 
         val review = Review(member.personNumber, "Placeholder title", binding.commentField.text.toString(), rating)
 
@@ -80,5 +98,97 @@ class MemberReviewFragment : DialogFragment() {
 
         // Close the fragment.
     }
+
+
+    /**
+     * Controls which stars are filled depending which star is clicked.
+     */
+    private fun setRatingButtonListeners() {
+
+        binding.rating1.setOnClickListener {
+            star1Active = !star1Active
+            if (star1Active) setStarsInactive(5)
+            else setStarsActive(1)
+        }
+
+        binding.rating2.setOnClickListener {
+            star2Active= !star2Active
+            if (star2Active) setStarsInactive(4)
+            else setStarsActive(2)
+        }
+
+        binding.rating3.setOnClickListener {
+            star3Active = !star3Active
+            if (star3Active) setStarsInactive(3)
+            else setStarsActive(3)
+        }
+
+        binding.rating4.setOnClickListener {
+            star4Active = !star4Active
+            if (star4Active) setStarsInactive(2)
+            else setStarsActive(4)
+        }
+
+        binding.rating5.setOnClickListener {
+            star5Active = !star5Active
+            if (star5Active) setStarsInactive(1)
+            else setStarsActive(5)
+        }
+
+    }
+
+    /**
+     * Sets the amount of stars active depending on the parameter.
+     */
+    private fun setStarsActive(amount: Int) {
+
+        if (amount >= 1) {
+            binding.rating1.setImageResource(R.drawable.star_filled)
+            star1Active = true
+        }
+        if (amount >= 2) {
+            binding.rating2.setImageResource(R.drawable.star_filled)
+            star2Active = true
+        }
+        if (amount >= 3) {
+            binding.rating3.setImageResource(R.drawable.star_filled)
+            star3Active = true
+        }
+        if (amount >= 4) {
+            binding.rating4.setImageResource(R.drawable.star_filled)
+            star4Active = true
+        }
+        if (amount >= 5) {
+            binding.rating5.setImageResource(R.drawable.star_filled)
+            star5Active = true
+        }
+    }
+
+    /**
+     * Sets the amount of stars inactive depending on the parameter.
+     */
+    private fun setStarsInactive(amount: Int) {
+        if (amount >= 1) {
+            binding.rating5.setImageResource(R.drawable.star_empty)
+            star5Active = false
+        }
+        if (amount >= 2) {
+            binding.rating4.setImageResource(R.drawable.star_empty)
+            star4Active = false
+        }
+        if (amount >= 3) {
+            binding.rating3.setImageResource(R.drawable.star_empty)
+            star3Active = false
+        }
+        if (amount >= 4) {
+            binding.rating2.setImageResource(R.drawable.star_empty)
+            star2Active = false
+        }
+        if (amount >= 5) {
+            binding.rating1.setImageResource(R.drawable.star_empty)
+            star1Active = false
+        }
+    }
+
 
 }
