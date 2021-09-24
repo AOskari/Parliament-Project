@@ -1,17 +1,14 @@
-package com.example.parliamentproject
+package com.example.parliamentproject.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.databinding.CustomRowBinding
 import com.example.parliamentproject.fragments.MemberListFragmentDirections
-import java.util.*
 
 
 /**
@@ -39,7 +36,7 @@ class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHo
      */
     override fun onBindViewHolder(holder: MemberListViewHolder, position: Int) {
         binding.member = memberList[position]
-      //  holder.image.setImageResource(currentItem.picture) // TODO: Add image of party logic
+      //  holder.image.setImageResource(currentItem.picture)
     }
 
     /**

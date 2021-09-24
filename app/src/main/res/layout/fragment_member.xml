@@ -6,6 +6,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
         tools:context=".fragments.MemberFragment">
 
@@ -14,29 +15,194 @@
             android:id="@+id/member_upper_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/custom_background_gradient"
+            android:animateLayoutChanges="true"
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/member_picture"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/misc_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/custom_misc_bar"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/guideline7">
+
+                <TextView
+                    android:id="@+id/seat_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:text="@string/Seat_number"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkgray"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/seat_info2"
+                    app:layout_constraintEnd_toStartOf="@+id/minister_info"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/age_info"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/minister_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:text="@string/minister"
+                    android:textAlignment="center"
+                    android:textColor="@color/darkgray"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/minister_info2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/seat_info"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/minister_info2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/colorSecondary2"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/minister_info"
+                    app:layout_constraintStart_toStartOf="@+id/minister_info"
+                    app:layout_constraintTop_toBottomOf="@+id/minister_info" />
+
+                <TextView
+                    android:id="@+id/seat_info2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/colorSecondary2"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/seat_info"
+                    app:layout_constraintStart_toStartOf="@+id/seat_info"
+                    app:layout_constraintTop_toBottomOf="@+id/seat_info" />
+
+                <TextView
+                    android:id="@+id/age_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:text="@string/age"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/darkgray"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/age_info2"
+                    app:layout_constraintEnd_toStartOf="@+id/seat_info"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/age_info2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/century_gothic_font"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/colorSecondary2"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/age_info"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/age_info"
+                    app:layout_constraintTop_toBottomOf="@+id/age_info" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.87" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
+                android:layout_width="411dp"
+                android:layout_height="0dp"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/custom_background_gradient"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/twitter_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/twitter"
+                app:layout_constraintBottom_toTopOf="@+id/misc_bar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/party_name" />
+
+            <TextView
+                android:id="@+id/twitter_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/century_gothic_font"
+                android:text="twitter"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/twitter_logo"
+                app:layout_constraintStart_toEndOf="@+id/twitter_logo"
+                app:layout_constraintTop_toTopOf="@+id/twitter_logo" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/member_picture"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/member_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/constraintLayout3" />
 
             <TextView
                 android:id="@+id/member_name"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:autoSizeMaxTextSize="20dp"
                 android:autoSizeMinTextSize="1dp"
@@ -47,7 +213,9 @@
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/party_name"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/member_picture" />
 
@@ -66,7 +234,9 @@
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/twitter_logo"
                 app:layout_constraintEnd_toEndOf="@+id/member_name"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/member_name"
                 app:layout_constraintTop_toBottomOf="@+id/member_name" />
 
@@ -77,150 +247,65 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.85" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mis_bar"
+            android:id="@+id/member_lower_layout"
             android:layout_width="0dp"
-            android:layout_height="81dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/custom_misc_bar"
-            android:elevation="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline6"
+            android:layout_height="0dp"
+            android:animateLayoutChanges="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline6">
+            app:layout_constraintTop_toBottomOf="@+id/member_upper_layout">
 
-            <TextView
-                android:id="@+id/seat_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:text="@string/Seat_number"
-                android:textAlignment="center"
-                android:textColor="@color/darkgray"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/seat_info2"
-                app:layout_constraintEnd_toStartOf="@+id/minister_info"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/age_info"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/minister_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/member_reviews"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:text="@string/minister"
-                android:textAlignment="center"
-                android:textColor="@color/darkgray"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/minister_info2"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/custom_misc_bar"
+                android:elevation="5dp"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/seat_info"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/review_toggle"
+                tools:listitem="@layout/custom_review_row" />
 
-            <TextView
-                android:id="@+id/minister_info2"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/colorSecondary2"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:clickable="true"
+                android:elevation="10dp"
+                android:src="@drawable/add"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/minister_info"
-                app:layout_constraintStart_toStartOf="@+id/minister_info"
-                app:layout_constraintTop_toBottomOf="@+id/minister_info" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <TextView
-                android:id="@+id/seat_info2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/colorSecondary2"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/seat_info"
-                app:layout_constraintStart_toStartOf="@+id/seat_info"
-                app:layout_constraintTop_toBottomOf="@+id/seat_info" />
-
-            <TextView
-                android:id="@+id/age_info"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/review_toggle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:text="@string/age"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/darkgray"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/age_info2"
-                app:layout_constraintEnd_toStartOf="@+id/seat_info"
-                app:layout_constraintHorizontal_bias="0.5"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/custom_background"
+                android:elevation="10dp"
+                android:text="Show and add reviews"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/age_info2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/century_gothic_font"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/colorSecondary2"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/age_info"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/age_info"
-                app:layout_constraintTop_toBottomOf="@+id/age_info" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/twitter_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/twitter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mis_bar" />
-
-        <TextView
-            android:id="@+id/twitter_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:fontFamily="@font/century_gothic_font"
-            android:text="twitter"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/black"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/twitter_logo"
-            app:layout_constraintStart_toEndOf="@+id/twitter_logo"
-            app:layout_constraintTop_toTopOf="@+id/twitter_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

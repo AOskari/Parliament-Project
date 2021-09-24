@@ -1,14 +1,10 @@
 package com.example.parliamentproject.workers
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.parliamentproject.data.MPApplication
-import com.example.parliamentproject.data.MemberDatabase
-import com.example.parliamentproject.data.MemberViewModel
-import com.example.parliamentproject.network.MembersApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch

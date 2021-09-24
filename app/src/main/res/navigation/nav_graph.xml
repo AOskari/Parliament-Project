@@ -5,17 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/memberListFragment">
 
-    <fragment
-        android:id="@+id/memberInfoFragment"
-        android:name="com.example.parliamentproject.fragments.MemberInfoFragment"
-        android:label="MemberInfoFragment">
-        <action
-            android:id="@+id/action_memberInfoFragment_to_memberReviewFragment"
-            app:destination="@id/memberReviewFragment" />
-        <argument
-            android:name="member"
-            app:argType="com.example.parliamentproject.data.data_classes.Member" />
-    </fragment>
     <dialog
         android:id="@+id/settingsFragment"
         android:name="com.example.parliamentproject.fragments.SettingsFragment"
@@ -62,22 +51,16 @@
         <action
             android:id="@+id/action_memberFragment_to_memberReviewFragment"
             app:destination="@id/memberReviewFragment" />
-        <action
-            android:id="@+id/action_memberFragment_to_memberInfoFragment"
-            app:destination="@id/memberInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/memberReviewFragment"
         android:name="com.example.parliamentproject.fragments.MemberReviewFragment"
         android:label="MemberReviewFragment">
-        <action
-            android:id="@+id/action_memberReviewFragment_to_memberFragment"
-            app:destination="@id/memberFragment" />
         <argument
             android:name="member"
             app:argType="com.example.parliamentproject.data.data_classes.Member" />
         <action
-            android:id="@+id/action_memberReviewFragment_to_memberInfoFragment"
-            app:destination="@id/memberInfoFragment" />
+            android:id="@+id/action_memberReviewFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
 </navigation>

@@ -2,9 +2,7 @@ package com.example.parliamentproject.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.parliamentproject.data.data_classes.Comment
 import com.example.parliamentproject.data.data_classes.Member
-import com.example.parliamentproject.data.data_classes.relations.MemberWithComments
 
 /**
  * A data access object interface, which describes each Query to the database.

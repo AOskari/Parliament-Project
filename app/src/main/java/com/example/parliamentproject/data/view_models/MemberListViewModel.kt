@@ -1,4 +1,4 @@
-package com.example.parliamentproject.data
+package com.example.parliamentproject.data.view_models
 
 import androidx.lifecycle.*
 import com.example.parliamentproject.data.data_classes.Member
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 /**
  * A subclass of ViewModel, for providing the correct data to the UI.
  */
-class MemberViewModel(private val memberRepository: MemberRepository, private val settingsRepository: SettingsRepository): ViewModel() {
+class MemberListViewModel(private val memberRepository: MemberRepository, private val settingsRepository: SettingsRepository): ViewModel() {
 
     // Getting the LiveData object from the MemberRepository
     val readAllData: LiveData<List<Member>> = memberRepository.readAllData
@@ -34,12 +34,12 @@ class MemberViewModel(private val memberRepository: MemberRepository, private va
 
 }
 
-class MemberViewModelFactory(private val repository: MemberRepository,
-                             private val settingsRepository: SettingsRepository) : ViewModelProvider.Factory {
+class MemberListViewModelFactory(private val repository: MemberRepository,
+                                 private val settingsRepository: SettingsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MemberViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MemberListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MemberViewModel(repository, settingsRepository) as T
+            return MemberListViewModel(repository, settingsRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,6 +1,5 @@
 package com.example.parliamentproject.data
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import androidx.room.AutoMigration
@@ -8,10 +7,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.parliamentproject.MainActivity
 import com.example.parliamentproject.data.dao.MemberDao
+import com.example.parliamentproject.data.dao.ReviewDao
 import com.example.parliamentproject.data.dao.SettingsDao
 import com.example.parliamentproject.data.data_classes.Member
+import com.example.parliamentproject.data.data_classes.Review
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.network.MembersApi
 import kotlinx.coroutines.CoroutineScope
@@ -22,16 +22,18 @@ import java.lang.Exception
  * A Singleton class, which is used for getting the instance of the Database.
  * When the singleton is called the first time, the Database will get populated.
  */
-@Database(entities = [Member::class, Settings::class],
-    version = 4, autoMigrations = [
+@Database(entities = [Member::class, Settings::class, Review::class],
+    version = 5, autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5)
     ])
 abstract class MemberDatabase : RoomDatabase() {
 
     abstract fun memberDao(): MemberDao
     abstract fun settingsDao() : SettingsDao
+    abstract fun reviewDao() : ReviewDao
 
     // Creating a Callback subclass mainly for populating the database when it is
     // created the first time.

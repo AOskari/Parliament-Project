@@ -12,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
-import com.example.parliamentproject.data.MemberViewModel
-import com.example.parliamentproject.data.MemberViewModelFactory
+import com.example.parliamentproject.data.view_models.MemberListViewModel
+import com.example.parliamentproject.data.view_models.MemberListViewModelFactory
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.CoroutineScope
@@ -26,8 +26,8 @@ class SettingsFragment : DialogFragment() {
     private var settings = Settings()
     private val applicationScope = CoroutineScope(SupervisorJob())
 
-    private val memberViewModel : MemberViewModel by viewModels {
-        MemberViewModelFactory((activity?.application as MPApplication).memberRepository,
+    private val memberListViewModel : MemberListViewModel by viewModels {
+        MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
             (activity?.application as MPApplication).settingsRepository)
     }
 
@@ -71,9 +71,9 @@ class SettingsFragment : DialogFragment() {
             binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
             binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
 
-        memberViewModel.let {
+        memberListViewModel.let {
             applicationScope.launch {
-                memberViewModel.updateSettings(settings)
+                memberListViewModel.updateSettings(settings)
             }
         }
     }
@@ -82,9 +82,9 @@ class SettingsFragment : DialogFragment() {
      * Updates the radiobuttons.
      */
     private fun updateRadioButtons() {
-        memberViewModel.let {
+        memberListViewModel.let {
             applicationScope.launch {
-                settings = memberViewModel.getSettings() as Settings
+                settings = memberListViewModel.getSettings() as Settings
             }
         }
 

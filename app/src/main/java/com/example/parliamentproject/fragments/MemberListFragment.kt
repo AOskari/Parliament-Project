@@ -11,10 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.parliamentproject.MemberListAdapter
+import com.example.parliamentproject.adapters.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
 import com.example.parliamentproject.data.data_classes.Settings
+import com.example.parliamentproject.data.view_models.MemberListViewModel
+import com.example.parliamentproject.data.view_models.MemberListViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -34,8 +36,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     // Contains the parties selected in settings. Gets updated onResume.
     private var chosenParties = listOf<String>()
     private val applicationScope = CoroutineScope(SupervisorJob())
-    private val memberViewModel : MemberViewModel by viewModels {
-        MemberViewModelFactory((activity?.application as MPApplication).memberRepository,
+    private val memberListViewModel : MemberListViewModel by viewModels {
+        MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
             (activity?.application as MPApplication).settingsRepository)
     }
 
@@ -64,7 +66,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         let {
             applicationScope.launch {
-                memberViewModel.updateMembers()
+                memberListViewModel.updateMembers()
             }
         }
 
@@ -101,7 +103,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      */
     private fun getMembers(query: String) {
         val searchQuery = "%$query%"
-        memberViewModel.getMembers(searchQuery, chosenParties, settings.minAge, settings.maxAge).observe(this, { list ->
+        memberListViewModel.getMembers(searchQuery, chosenParties, settings.minAge, settings.maxAge).observe(this, { list ->
             list.let {
                 adapter.setData(it)
             }
@@ -118,7 +120,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
             let {
                 applicationScope.launch {
-                    settings = memberViewModel.getSettings() as Settings
+                    settings = memberListViewModel.getSettings() as Settings
                 }
             }
             chosenParties = settings.settingsAsList()
