@@ -12,6 +12,7 @@ import android.view.animation.Transformation
 import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,19 +27,17 @@ import com.example.parliamentproject.network.MembersApi
 import kotlinx.android.synthetic.main.fragment_member.*
 
 /**
- * Displays the data of the chosen Member of Parliament.
+ * A Fragment subclass which displays the data of the chosen Member of Parliament.
  */
 class MemberFragment : Fragment() {
 
     private lateinit var binding : FragmentMemberBinding
     private lateinit var member: Member
     private lateinit var adapter : ReviewListAdapter
+    private lateinit var memberViewModel : MemberViewModel
+    private lateinit var memberViewModelFactory: MemberViewModelFactory
+
     private var showReviews = false
-
-    private val memberViewModel : MemberViewModel by viewModels {
-        MemberViewModelFactory((activity?.application as MPApplication).reviewRepository)
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,19 +46,27 @@ class MemberFragment : Fragment() {
 
         adapter = ReviewListAdapter()
 
+        // Setting up the binder and adapter for the RecyclerView.
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member, container, false)
         binding.memberReviews.adapter = adapter
         binding.memberReviews.layoutManager = LinearLayoutManager(requireContext())
         binding.memberReviews.setHasFixedSize(true)
 
-        setProperties()
 
+        // Getting or creating the MemberViewModel instance depending if there is one or not.
+        memberViewModelFactory = MemberViewModelFactory((activity?.application as MPApplication).reviewRepository,
+            MemberFragmentArgs.fromBundle(requireArguments()).member)
+        memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
+
+        // Setting the UI properties
+        setUIProperties()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
 
+        // Updating the list of reviews using the MemberViewModel.
         memberViewModel.getReviewsByPersonNumber(member.personNumber).observe(this, { list ->
             list.let {
                 adapter.setData(list)
@@ -69,12 +76,11 @@ class MemberFragment : Fragment() {
     }
 
     /**
-     * Sets the correct data in to the View.
+     * Sets up the UI using the saved properties in the MemberViewModel object.
      */
-    private fun setProperties() {
-        val args: MemberFragmentArgs by navArgs()
+    private fun setUIProperties() {
 
-        member = args.member
+        member = memberViewModel.member
 
         // Gets the image of the chosen MP and caches it.
         MembersApi.setMemberImage(member.picture, binding.memberPicture, this)
@@ -82,7 +88,6 @@ class MemberFragment : Fragment() {
         binding.memberName.text = "${member.displayName()} ${member.personNumber}"
         binding.partyName.text = member.party
         binding.ministerInfo2.text = if (member.minister) "Yes" else "No"
-
         binding.seatInfo2.text = member.seatNumber.toString()
         binding.ageInfo2.text = member.age.toString()
         binding.twitterLink.text = if (member.twitter != "") member.twitter else "No Twitter"
@@ -103,6 +108,7 @@ class MemberFragment : Fragment() {
         }
     }
 
+
     /**
      * @name the name of the Member's party.
      * Sets the party name.
@@ -118,14 +124,12 @@ class MemberFragment : Fragment() {
     }
 
     /**
-     * Changes the guideline percent for displaying the RecyclerView containing the reviews.
+     * Changes the guideline percentage for expanding the RecyclerView containing the reviews.
      */
     private fun toggleReviewsDisplay() {
         showReviews = !showReviews
         val guideline : Guideline = binding.guideline6
         val toggleButton = binding.reviewToggle
-        val reviewList = binding.memberReviews
-        val floatingButton = binding.addReview
         val image = binding.memberPicture
         val memberName = binding.memberName
         val memberParty = binding.partyName
@@ -136,8 +140,6 @@ class MemberFragment : Fragment() {
         if (showReviews) {
             guideline.setGuidelinePercent(0.15f)
             toggleButton.text = "Hide reviews"
-            reviewList.visibility = VISIBLE
-            floatingButton.visibility = VISIBLE
             image.visibility = GONE
             memberName.visibility = GONE
             memberParty.visibility = GONE
@@ -146,10 +148,8 @@ class MemberFragment : Fragment() {
             miscBar.visibility = GONE
         }
         else {
-            guideline.setGuidelinePercent(0.85f)
-            toggleButton.text = "Show and add reviews"
-            reviewList.visibility = GONE
-            floatingButton.visibility = GONE
+            guideline.setGuidelinePercent(0.6f)
+            toggleButton.text = "Expand reviews"
             image.visibility = VISIBLE
             memberName.visibility = VISIBLE
             memberParty.visibility = VISIBLE

@@ -40,12 +40,6 @@ class MemberReviewFragment : DialogFragment() {
         ReviewViewModelFactory((activity?.application as MPApplication).reviewRepository)
     }
 
-
-    // Create logic for adding comments and rating for the chosen member.
-    // Probably a good idea to add the selected member as an argument when moving to this fragment.
-    // Display the chosen Member's name on this fragment, to indicate the user who he or she is reviewing.
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -101,7 +95,7 @@ class MemberReviewFragment : DialogFragment() {
 
 
     /**
-     * Controls which stars are filled depending which star is clicked.
+     * Controls which stars are filled depending on the star that is clicked.
      */
     private fun setRatingButtonListeners() {
 

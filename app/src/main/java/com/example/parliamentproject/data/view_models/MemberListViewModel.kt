@@ -26,6 +26,7 @@ class MemberListViewModel(private val memberRepository: MemberRepository, privat
      * Calls the getMembers function of the MemberRepository.
      */
     fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberRepository.getMembers(param, parties, minAge, maxAge)
+
     suspend fun updateMembers() = memberRepository.updateMembers()
 
     fun getSettings() = settingsRepository.getSettings()
