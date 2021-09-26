@@ -17,12 +17,6 @@ interface MemberDao {
     suspend fun addMember(member: Member)
 
     /**
-     * Adds a comment to the selected member.
-     */
-  /*  @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addComment(comment: Comment)
-*/
-    /**
      * Returns all Member objects from the member_table in an ascending order.
      */
     @Query("SELECT * FROM member_table ORDER BY first ASC")
@@ -34,12 +28,6 @@ interface MemberDao {
     @Query("SELECT * FROM member_table WHERE (first LIKE :param OR last LIKE :param) AND party IN (:parties) AND age >= :minAge AND age <= :maxAge")
     fun getMembers(param: String, parties: List<String>, minAge: Int, maxAge: Int): LiveData<List<Member>>
 
-    /**
-     * Fetches all the Comments which are associated with the chosen Member (personNumber).
-     */
-   /* @Transaction
-    @Query("SELECT * FROM member_table WHERE personNumber = :personNumber")
-    suspend fun getMemberWithComments(personNumber: Int) : List<MemberWithComments> */
 
     /**
      * Updates the member_table.

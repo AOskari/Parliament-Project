@@ -8,6 +8,10 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+/**
+ * The data class used for storing information of Members of Parliament into the Room Database.
+ * As the information is retrieved initially in JSON, each variable contains a @Json annotation so that Moshi is able to parse it.
+ */
 @Parcelize
 @Entity(tableName = "member_table")
 data class Member(
@@ -25,7 +29,10 @@ data class Member(
     var age : Int? = Calendar.getInstance().get(Calendar.YEAR) - bornYear
 ) : Parcelable {
 
+    /** Displays the full name of the Member. This function is mainly used for data binding. */
     fun displayName() = "$first $last"
+
+    /** Displays the status information of the Member. This function is mainly used in the RecyclerView in MemberListFragment. */
     fun statusInfo() = "Age: ${Calendar.getInstance().get(Calendar.YEAR) - bornYear}, " +
             "${party}${if (minister) ", minister" else ""}"
 }

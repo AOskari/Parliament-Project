@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
@@ -61,7 +63,7 @@ class MemberReviewFragment : DialogFragment() {
 
     /**
      * Saves the EditText content and the ToggleButton content in to the Database.
-     * Closes the fragment after saving the content.
+     * Goes back to the MemberFragment after saving the content.
      */
     private fun saveReview() {
 
@@ -90,7 +92,8 @@ class MemberReviewFragment : DialogFragment() {
             Log.d("MemberReviewFragment", "Saving review failed.")
         }
 
-        // Close the fragment.
+        val action = MemberReviewFragmentDirections.actionMemberReviewFragmentToMemberFragment(member)
+        findNavController().navigate(action)
     }
 
 

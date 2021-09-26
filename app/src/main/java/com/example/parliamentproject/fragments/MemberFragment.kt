@@ -26,9 +26,7 @@ import com.example.parliamentproject.databinding.FragmentMemberBinding
 import com.example.parliamentproject.network.MembersApi
 import kotlinx.android.synthetic.main.fragment_member.*
 
-/**
- * A Fragment subclass which displays the data of the chosen Member of Parliament.
- */
+/** A Fragment subclass which displays the data of the chosen Member of Parliament. */
 class MemberFragment : Fragment() {
 
     private lateinit var binding : FragmentMemberBinding
@@ -44,40 +42,31 @@ class MemberFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        adapter = ReviewListAdapter()
-
-        // Setting up the binder and adapter for the RecyclerView.
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member, container, false)
-        binding.memberReviews.adapter = adapter
-        binding.memberReviews.layoutManager = LinearLayoutManager(requireContext())
-        binding.memberReviews.setHasFixedSize(true)
-
-
         // Getting or creating the MemberViewModel instance depending if there is one or not.
         memberViewModelFactory = MemberViewModelFactory((activity?.application as MPApplication).reviewRepository,
             MemberFragmentArgs.fromBundle(requireArguments()).member)
         memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
 
+        // Setting up the binding and adapter for the RecyclerView.
+        adapter = ReviewListAdapter()
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member, container, false)
+        binding.memberReviews.adapter = adapter
+        binding.memberReviews.layoutManager = LinearLayoutManager(requireContext())
+        binding.memberReviews.setHasFixedSize(true)
+
         // Setting the UI properties
         setUIProperties()
-        return binding.root
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        // Updating the list of reviews using the MemberViewModel.
-        memberViewModel.getReviewsByPersonNumber(member.personNumber).observe(this, { list ->
+        // Setting an observer to the LiveData list of Reviews for updating the reviews.
+        memberViewModel.getReviewsByPersonNumber(member.personNumber).observe(viewLifecycleOwner, { list ->
             list.let {
                 adapter.setData(list)
             }
         })
-
+        return binding.root
     }
 
-    /**
-     * Sets up the UI using the saved properties in the MemberViewModel object.
-     */
+    /** Sets up the UI using the saved properties in the MemberViewModel object. */
     private fun setUIProperties() {
 
         member = memberViewModel.member
@@ -109,23 +98,17 @@ class MemberFragment : Fragment() {
     }
 
 
-    /**
-     * @name the name of the Member's party.
-     * Sets the party name.
-     */
+    /** Sets the party name.
+     * @name the name of the Member's party. */
     private fun setPartyName(name: String) { binding.partyName.text = name }
 
-    /**
-     * Opens the MemberReviewFragment with the currently selected Member.
-     */
+    /** Opens the MemberReviewFragment with the currently selected Member. */
     private fun openReviewFragment() {
         val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(member)
         findNavController().navigate(action)
     }
 
-    /**
-     * Changes the guideline percentage for expanding the RecyclerView containing the reviews.
-     */
+    /** Changes the guideline percentage for expanding the RecyclerView containing the reviews. */
     private fun toggleReviewsDisplay() {
         showReviews = !showReviews
         val guideline : Guideline = binding.guideline6

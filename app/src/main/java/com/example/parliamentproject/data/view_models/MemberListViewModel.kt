@@ -6,35 +6,24 @@ import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.repositories.MemberRepository
 import com.example.parliamentproject.data.repositories.SettingsRepository
 import kotlinx.coroutines.launch
+import java.lang.StringBuilder
 
-/**
- * A subclass of ViewModel, for providing the correct data to the UI.
- */
+/** A subclass of ViewModel. Provides the necessary data to the MemberListFragment. */
 class MemberListViewModel(private val memberRepository: MemberRepository, private val settingsRepository: SettingsRepository): ViewModel() {
 
-    // Getting the LiveData object from the MemberRepository
-    val readAllData: LiveData<List<Member>> = memberRepository.readAllData
-
-    /**
-     * Calls the addMember function of the MemberRepository.
-     */
-    fun addMember(member: Member) = viewModelScope.launch {
-        memberRepository.addMember(member)
-    }
-
-    /**
-     * Calls the getMembers function of the MemberRepository.
-     */
+    /** Calls the getMembers function of the MemberRepository.
+     * @param: the given SearchView input.
+     * @parties: A list of the parties selected in the Settings object.
+     * @minAge: The minimum selected age in the Settings.
+     * @maxAge: The maximum age selected in the Settings.
+     * */
     fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberRepository.getMembers(param, parties, minAge, maxAge)
 
-    suspend fun updateMembers() = memberRepository.updateMembers()
-
+    /** Returns the current settings from the Room Database. */
     fun getSettings() = settingsRepository.getSettings()
-
-    suspend fun updateSettings(settings: Settings) = settingsRepository.updateSettings(settings)
-
 }
 
+/** Used for creating or fetching an instance of the MemberListViewModel. */
 class MemberListViewModelFactory(private val repository: MemberRepository,
                                  private val settingsRepository: SettingsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -29,7 +29,7 @@ data class Settings (
     /**
      * Returns settins as a List of Strings.
      */
-    fun settingsAsList() : List<String> {
+    fun chosenParties() : List<String> {
         val list = mutableListOf<String>()
 
         if (showKDP) list.add("kd")

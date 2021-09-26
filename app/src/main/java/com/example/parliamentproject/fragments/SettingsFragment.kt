@@ -9,37 +9,48 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
-import com.example.parliamentproject.data.view_models.MemberListViewModel
-import com.example.parliamentproject.data.view_models.MemberListViewModelFactory
 import com.example.parliamentproject.data.data_classes.Settings
+import com.example.parliamentproject.data.view_models.*
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+/** A Fragment subclass, which is used for updating the single Settings object in the Room database. */
 class SettingsFragment : DialogFragment() {
 
     private lateinit var binding : FragmentSettingsBinding
-    private var settings = Settings()
-    private val applicationScope = CoroutineScope(SupervisorJob())
+    private lateinit var settings : Settings
+    private lateinit var settingsViewModel: SettingsViewModel
+    private lateinit var settingsViewModelFactory: SettingsViewModelFactory
 
-    private val memberListViewModel : MemberListViewModel by viewModels {
-        MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
-            (activity?.application as MPApplication).settingsRepository)
-    }
+    private val applicationScope = CoroutineScope(SupervisorJob())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        // Getting or creating an instance of the SettingsViewModel depending if there is one or not.
+        settingsViewModelFactory = SettingsViewModelFactory((activity?.application as MPApplication).settingsRepository)
+        settingsViewModel = ViewModelProvider(this, settingsViewModelFactory).get(SettingsViewModel::class.java)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
 
-        updateRadioButtons()
+        // Setting an observer for updating the radio buttons.
+        settingsViewModel.getSettings().observe(viewLifecycleOwner, { s ->
+            s.let {
+                settings = it
+                updateRadioButtons()
+            }
+        })
 
+        // Setting a onClickListener to the back button.
         binding.settingsBack.setOnClickListener {
             updateSettings()
             val action = SettingsFragmentDirections.actionSettingsFragmentToMemberListFragment()
@@ -53,40 +64,22 @@ class SettingsFragment : DialogFragment() {
         return binding.root
     }
 
-    /**
-     * Updates the settings and the radio buttons accordingly when the fragment is resumed.
-     */
-    override fun onResume() {
-        super.onResume()
-        updateRadioButtons()
-    }
-
-
-    /**
-     * Updates the settings with the radio buttons and returns it.
-     */
+    /** Updates the settings with the radio buttons and returns it. */
     private fun updateSettings() {
 
-        settings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
+        val newSettings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
             binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
             binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
 
-        memberListViewModel.let {
+        settingsViewModel.let {
             applicationScope.launch {
-                memberListViewModel.updateSettings(settings)
+                settingsViewModel.updateSettings(newSettings)
             }
         }
     }
 
-    /**
-     * Updates the radiobuttons.
-     */
+    /** Updates the radiobuttons. */
     private fun updateRadioButtons() {
-        memberListViewModel.let {
-            applicationScope.launch {
-                settings = memberListViewModel.getSettings() as Settings
-            }
-        }
 
         binding.kdpRadio.isChecked = settings.showKDP
         binding.keskRadio.isChecked = settings.showKesk
