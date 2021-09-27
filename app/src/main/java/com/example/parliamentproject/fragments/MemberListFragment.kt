@@ -51,6 +51,11 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recyclerView.setHasFixedSize(true)
         binding.searchview.setOnQueryTextListener(this)
 
+        binding.searchview.setOnClickListener {
+            binding.searchview.isIconified = false
+        }
+
+
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
             val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
@@ -83,6 +88,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         else adapter.setData(emptyList())
         return true
     }
+
+
 
     /** Searches the database according to the SearchView's input field and the settings. */
     private fun getMembers(query: String) {

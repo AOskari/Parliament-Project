@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
@@ -24,10 +25,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class MemberReviewFragment : DialogFragment() {
+/** A Fragment subclass used for the creation of new Review objects. */
+class MemberReviewFragment : Fragment() {
 
     private lateinit var binding : FragmentMemberReviewBinding
     private lateinit var member : Member
+
     private val applicationScope = CoroutineScope(SupervisorJob())
     private var rating = 0
 
@@ -37,7 +40,6 @@ class MemberReviewFragment : DialogFragment() {
     private var star4Active = false
     private var star5Active = false
 
-
     private val reviewViewModel : ReviewViewModel by viewModels {
         ReviewViewModelFactory((activity?.application as MPApplication).reviewRepository)
     }
@@ -46,25 +48,22 @@ class MemberReviewFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_review, container, false)
+
+
 
         val args: MemberReviewFragmentArgs by navArgs()
         member = args.member
 
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_review, container, false)
         binding.saveReview.setOnClickListener { saveReview() }
-
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         setRatingButtonListeners()
 
         return binding.root
     }
 
-    /**
-     * Saves the EditText content and the ToggleButton content in to the Database.
-     * Goes back to the MemberFragment after saving the content.
-     */
+    /** Saves the EditText content and the ToggleButton content in to the Database.
+     * Goes back to the MemberFragment after saving the content. */
     private fun saveReview() {
 
         rating = when {
@@ -76,7 +75,7 @@ class MemberReviewFragment : DialogFragment() {
             else -> 0
         }
 
-        val review = Review(member.personNumber, "Placeholder title", binding.commentField.text.toString(), rating)
+        val review = Review(member.personNumber, binding.reviewTitle.text.toString(), binding.commentField.text.toString(), rating)
 
         try {
             let {
@@ -97,95 +96,65 @@ class MemberReviewFragment : DialogFragment() {
     }
 
 
-    /**
-     * Controls which stars are filled depending on the star that is clicked.
-     */
+    /** Controls which stars are filled depending on the star that is clicked. */
     private fun setRatingButtonListeners() {
 
         binding.rating1.setOnClickListener {
             star1Active = !star1Active
-            if (star1Active) setStarsInactive(5)
-            else setStarsActive(1)
+            if (star1Active) setStarsActive(1)
+            else setStarsInactive(5)
+            Log.d("Rating btn clicked", "1 status: $star1Active")
         }
 
         binding.rating2.setOnClickListener {
-            star2Active= !star2Active
-            if (star2Active) setStarsInactive(4)
-            else setStarsActive(2)
+            star2Active = !star2Active
+            if (star2Active) setStarsActive(2)
+            else setStarsInactive(4)
+            Log.d("Rating btn clicked", "2 status: $star2Active")
         }
 
         binding.rating3.setOnClickListener {
             star3Active = !star3Active
-            if (star3Active) setStarsInactive(3)
-            else setStarsActive(3)
+            if (star3Active) setStarsActive(3)
+            else setStarsInactive(3)
+            Log.d("Rating btn clicked", "3 status: $star3Active")
         }
 
         binding.rating4.setOnClickListener {
             star4Active = !star4Active
-            if (star4Active) setStarsInactive(2)
-            else setStarsActive(4)
+            if (star4Active) setStarsActive(4)
+            else setStarsInactive(2)
+            Log.d("Rating btn clicked", "4 status: $star4Active")
         }
 
         binding.rating5.setOnClickListener {
             star5Active = !star5Active
-            if (star5Active) setStarsInactive(1)
-            else setStarsActive(5)
+            if (star5Active) setStarsActive(5)
+            else setStarsInactive(1)
+            Log.d("Rating btn clicked", "5 status: $star5Active")
         }
 
     }
 
-    /**
-     * Sets the amount of stars active depending on the parameter.
-     */
+    /** Sets the amount of stars active depending on the parameter. */
     private fun setStarsActive(amount: Int) {
 
-        if (amount >= 1) {
-            binding.rating1.setImageResource(R.drawable.star_filled)
-            star1Active = true
-        }
-        if (amount >= 2) {
-            binding.rating2.setImageResource(R.drawable.star_filled)
-            star2Active = true
-        }
-        if (amount >= 3) {
-            binding.rating3.setImageResource(R.drawable.star_filled)
-            star3Active = true
-        }
-        if (amount >= 4) {
-            binding.rating4.setImageResource(R.drawable.star_filled)
-            star4Active = true
-        }
-        if (amount >= 5) {
-            binding.rating5.setImageResource(R.drawable.star_filled)
-            star5Active = true
-        }
+        if (amount >= 1) binding.rating1.setImageResource(R.drawable.star_filled)
+        if (amount >= 2) binding.rating2.setImageResource(R.drawable.star_filled)
+        if (amount >= 3) binding.rating3.setImageResource(R.drawable.star_filled)
+        if (amount >= 4) binding.rating4.setImageResource(R.drawable.star_filled)
+        if (amount >= 5) binding.rating5.setImageResource(R.drawable.star_filled)
+
     }
 
-    /**
-     * Sets the amount of stars inactive depending on the parameter.
-     */
+    /** Sets the amount of stars inactive depending on the parameter. */
     private fun setStarsInactive(amount: Int) {
-        if (amount >= 1) {
-            binding.rating5.setImageResource(R.drawable.star_empty)
-            star5Active = false
-        }
-        if (amount >= 2) {
-            binding.rating4.setImageResource(R.drawable.star_empty)
-            star4Active = false
-        }
-        if (amount >= 3) {
-            binding.rating3.setImageResource(R.drawable.star_empty)
-            star3Active = false
-        }
-        if (amount >= 4) {
-            binding.rating2.setImageResource(R.drawable.star_empty)
-            star2Active = false
-        }
-        if (amount >= 5) {
-            binding.rating1.setImageResource(R.drawable.star_empty)
-            star1Active = false
-        }
+
+        if (amount >= 1) binding.rating5.setImageResource(R.drawable.star_empty)
+        if (amount >= 2) binding.rating4.setImageResource(R.drawable.star_empty)
+        if (amount >= 3) binding.rating3.setImageResource(R.drawable.star_empty)
+        if (amount >= 4) binding.rating2.setImageResource(R.drawable.star_empty)
+        if (amount >= 5) binding.rating1.setImageResource(R.drawable.star_empty)
+
     }
-
-
 }

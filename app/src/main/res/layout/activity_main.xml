@@ -24,7 +24,7 @@
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/custom_nav_bar"
             app:menu="@menu/menu"
             app:itemTextColor="@color/white"
             app:itemIconTint="@color/white"

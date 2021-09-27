@@ -7,14 +7,10 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Transformation
 import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.R
 import com.example.parliamentproject.adapters.ReviewListAdapter
@@ -24,7 +20,6 @@ import com.example.parliamentproject.data.view_models.MemberViewModel
 import com.example.parliamentproject.data.view_models.MemberViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberBinding
 import com.example.parliamentproject.network.MembersApi
-import kotlinx.android.synthetic.main.fragment_member.*
 
 /** A Fragment subclass which displays the data of the chosen Member of Parliament. */
 class MemberFragment : Fragment() {

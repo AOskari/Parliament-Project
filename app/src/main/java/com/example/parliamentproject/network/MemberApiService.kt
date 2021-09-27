@@ -19,6 +19,7 @@ import retrofit2.http.GET
 /**
  * This script uses Retrofit to fetch wanted data from the wanted URL.
  */
+
 // The destination URL where the data will be fetched.
 private const val URL = " https://users.metropolia.fi/~peterh/"
 

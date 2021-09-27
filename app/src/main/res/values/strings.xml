@@ -10,8 +10,7 @@
     <string name="showMen">Show men</string>
     <string name="showWomen">Show women</string>
     <string name="showAll">Show all</string>
-    <string name="reviewTitle">Comment and rate</string>
-    <string name="reviewHint">Write an informal comment here</string>
+
 
 
     <!-- Parliament parties -->
@@ -37,10 +36,13 @@
     <string name="switchvas">Vas  </string>
     <string name="switchvihr">Vihr  </string>
 
-
     <!-- descriptions -->
     <string name="partyLogo">Party logo</string>
 
+    <!-- MemberReviewFragment strings -->
+    <string name="title_placeholder">A Review</string>
+    <string name="reviewTitle">Create a review</string>
+    <string name="reviewHint">Write your comment here</string>
 
     <!-- MemberFragment strings -->
     <string name="age">Age</string>

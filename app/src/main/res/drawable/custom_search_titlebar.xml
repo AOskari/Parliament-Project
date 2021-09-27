@@ -6,7 +6,7 @@
             <solid android:color="@color/colorPrimary" />
 
             <gradient
-                android:startColor="@color/colorPrimary"
+                android:startColor="@color/white"
                 android:endColor="@color/colorSecondary"
                 android:angle="45" />
 

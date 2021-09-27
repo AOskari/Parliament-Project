@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_memberListFragment"
-            app:destination="@id/memberListFragment" />
+            app:destination="@id/memberListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </dialog>
     <fragment
         android:id="@+id/memberListFragment"
@@ -21,13 +25,25 @@
         tools:layout="@layout/fragment_member_list">
         <action
             android:id="@+id/action_memberListFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_memberListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_memberListFragment_to_memberFragment"
-            app:destination="@id/memberFragment" />
+            app:destination="@id/memberFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -36,7 +52,11 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_memberListFragment"
-            app:destination="@id/memberListFragment" />
+            app:destination="@id/memberListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/memberFragment"
@@ -44,13 +64,21 @@
         android:label="MemberFragment">
         <action
             android:id="@+id/action_memberFragment_to_memberListFragment"
-            app:destination="@id/memberListFragment" />
+            app:destination="@id/memberListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
         <argument
             android:name="member"
             app:argType="com.example.parliamentproject.data.data_classes.Member" />
         <action
             android:id="@+id/action_memberFragment_to_memberReviewFragment"
-            app:destination="@id/memberReviewFragment" />
+            app:destination="@id/memberReviewFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/memberReviewFragment"
@@ -61,6 +89,10 @@
             app:argType="com.example.parliamentproject.data.data_classes.Member" />
         <action
             android:id="@+id/action_memberReviewFragment_to_memberFragment"
-            app:destination="@id/memberFragment" />
+            app:destination="@id/memberFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 </navigation>
