@@ -15,8 +15,7 @@ class MemberListViewModel(private val memberRepository: MemberRepository, privat
      * @param: the given SearchView input.
      * @parties: A list of the parties selected in the Settings object.
      * @minAge: The minimum selected age in the Settings.
-     * @maxAge: The maximum age selected in the Settings.
-     * */
+     * @maxAge: The maximum age selected in the Settings. */
     fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberRepository.getMembers(param, parties, minAge, maxAge)
 
     /** Returns the current settings from the Room Database. */

@@ -44,6 +44,13 @@
     <string name="reviewTitle">Create a review</string>
     <string name="reviewHint">Write your comment here</string>
 
+    <!-- MainFragment strings -->
+    <string name="welcome">Welcome!</string>
+    <string name="db_updated">Database updated</string>
+    <string name="last_viewed">Last viewed MP</string>
+    <string name="current_settings">Current settings</string>
+    <string name="placeholder_date">28.9.2021,\n 20:00 PM</string>
+
     <!-- MemberFragment strings -->
     <string name="age">Age</string>
     <string name="Seat_number">Seat</string>

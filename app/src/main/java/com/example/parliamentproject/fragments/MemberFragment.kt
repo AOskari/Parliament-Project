@@ -1,5 +1,6 @@
 package com.example.parliamentproject.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.example.parliamentproject.data.view_models.MemberViewModel
 import com.example.parliamentproject.data.view_models.MemberViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberBinding
 import com.example.parliamentproject.network.MembersApi
+import com.google.gson.Gson
 
 /** A Fragment subclass which displays the data of the chosen Member of Parliament. */
 class MemberFragment : Fragment() {
@@ -58,6 +60,9 @@ class MemberFragment : Fragment() {
                 adapter.setData(list)
             }
         })
+
+        recentlyViewedMemberToPrefs(member)
+
         return binding.root
     }
 
@@ -135,5 +140,15 @@ class MemberFragment : Fragment() {
             twitterUrl.visibility = VISIBLE
             miscBar.visibility = VISIBLE
         }
+    }
+
+    /** Adds or updates the recently viewed Member object stored in the SharedPreferences. */
+    private fun recentlyViewedMemberToPrefs(member: Member) {
+        val gson = Gson()
+        val sharedPrefs = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val prefsEditor = sharedPrefs.edit()
+        val json = gson.toJson(member)
+        prefsEditor.putString("recentlyViewedMember", json)
+        prefsEditor.commit()
     }
 }

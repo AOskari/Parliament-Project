@@ -49,8 +49,6 @@ class MemberReviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-
         val args: MemberReviewFragmentArgs by navArgs()
         member = args.member
 

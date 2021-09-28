@@ -276,7 +276,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/review_toggle"
-                tools:listitem="@layout/custom_review_row" />
+                tools:listitem="@layout/reviewlist_row" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_review"

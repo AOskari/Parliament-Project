@@ -1,27 +1,32 @@
 package com.example.parliamentproject.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.adapters.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
+import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.view_models.MemberListViewModel
 import com.example.parliamentproject.data.view_models.MemberListViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
-/**
- * A Fragment subclass, which displays all found members of parliament in a RecyclerView.
- */
+/** A Fragment subclass, which displays all found members of parliament in a RecyclerView. */
 class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentMemberListBinding
@@ -30,6 +35,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var memberListViewModel : MemberListViewModel
     private lateinit var memberListViewModelFactory: MemberListViewModelFactory
 
+    private val applicationScope = CoroutineScope(SupervisorJob())
     private var chosenParties = listOf<String>()
 
     override fun onCreateView(
@@ -58,6 +64,10 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
+            
+            val key = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            key.hideSoftInputFromWindow(view?.windowToken, 0)
+
             val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
             findNavController().navigate(action)
         }
@@ -76,8 +86,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     /** Handles the SearchView input. If there is no input, the RecyclerView will be empty.
      * @onQueryTextSubmit
-     * @onQueryTextChange
-     */
+     * @onQueryTextChange */
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query != null && (query != "")) getMembers(query)
         else adapter.setData(emptyList())
@@ -90,14 +99,17 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
 
-
     /** Searches the database according to the SearchView's input field and the settings. */
     private fun getMembers(query: String) {
-        Log.d("getMembers in MemberList", "Current settings $settings")
+
         val searchQuery = "%$query%"
+
+        Log.d("getMembers in MemberList", "Current searchQuery: $searchQuery and query: $query")
+
         memberListViewModel.getMembers(searchQuery, chosenParties, settings.minAge, settings.maxAge).observe(this, { list ->
             list.let {
                 adapter.setData(it)
+                Log.d("observer update called", it.toString())
             }
         })
     }

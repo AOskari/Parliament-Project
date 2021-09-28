@@ -33,6 +33,21 @@ data class Member(
     fun displayName() = "$first $last"
 
     /** Displays the status information of the Member. This function is mainly used in the RecyclerView in MemberListFragment. */
-    fun statusInfo() = "Age: ${Calendar.getInstance().get(Calendar.YEAR) - bornYear}, " +
-            "${party}${if (minister) ", minister" else ""}"
+    fun statusInfo() = "Age: ${Calendar.getInstance().get(Calendar.YEAR) - bornYear}${if (minister) ", minister" else ""}"
+
+    /** Returns the official abbreviation of the party. */
+    fun displayPartyName() : String {
+        return when (party) {
+            "sd" -> "SDP"
+            "r" -> "RKP"
+            "kd" -> "KD"
+            "kok" -> "Kok."
+            "liik" -> "Liik."
+            "ps" -> "PS"
+            "kesk" -> "Kesk."
+            "vihr" -> "Vihr."
+            "vas" -> "Vas."
+            else -> ""
+        }
+    }
 }

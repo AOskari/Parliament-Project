@@ -1,32 +1,27 @@
 package com.example.parliamentproject.adapters
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.data_classes.Review
-import com.example.parliamentproject.databinding.CustomReviewRowBinding
+import com.example.parliamentproject.databinding.ReviewlistRowBinding
 
 /**RecyclerView.Adapter subclass which is utilized in the RecyclerView of MemberReviewFragment.
  * Initially it displays only the title of a Review, but it can be expanded to show the comment and rating of the review, by
  * clicking on the title. */
 class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewHolder>() {
 
-    private lateinit var binding : CustomReviewRowBinding
+    private lateinit var binding : ReviewlistRowBinding
     private var reviewList : List<Review> = emptyList()
 
     /** Called everytime a new row is created. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ReviewListViewHolder {
-        binding = CustomReviewRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding = ReviewlistRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ReviewListViewHolder(binding)
     }
 
@@ -71,7 +66,7 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
     }
 
     /** Defines the content of each row on the RecycleView. */
-    class ReviewListViewHolder(binding: CustomReviewRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ReviewListViewHolder(binding: ReviewlistRowBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.rowTitle
         val comment: TextView = binding.commentView
     }
