@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * Sets up the navigation components for the MainActivity.
-     */
+    /** Sets up the navigation components for the MainActivity. */
     private fun navSetup() {
         val navFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navFragment.navController
@@ -40,9 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    /**
-     * Enables a WorkManager, which updates the Room database once a day.
-     */
+    /** Enables a WorkManager, which updates the Room database once a day. */
     private fun enableWorkManager() {
         val workRequest = PeriodicWorkRequest.Builder(DatabaseUpdateWorker::class.java, 1, TimeUnit.DAYS).build()
             WorkManager.getInstance(applicationContext)

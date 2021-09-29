@@ -35,7 +35,6 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var memberListViewModel : MemberListViewModel
     private lateinit var memberListViewModelFactory: MemberListViewModelFactory
 
-    private val applicationScope = CoroutineScope(SupervisorJob())
     private var chosenParties = listOf<String>()
 
     override fun onCreateView(

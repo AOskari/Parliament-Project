@@ -1,6 +1,7 @@
 package com.example.parliamentproject.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,9 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.data_classes.Member
+import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.view_models.*
 import com.example.parliamentproject.databinding.FragmentMainBinding
+import com.example.parliamentproject.network.MembersApi
 import com.google.gson.Gson
+import java.util.*
 
 /** A Fragment subclass which displays a summary of the usage of the app. */
 class MainFragment : Fragment() {
@@ -22,8 +26,9 @@ class MainFragment : Fragment() {
     private lateinit var mainViewModel : MainViewModel
     private lateinit var mainViewModelFactory: MainViewModelFactory
     private lateinit var binding : FragmentMainBinding
-
     private lateinit var recentlyViewedMember : Member
+
+    private lateinit var settings : Settings
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +39,8 @@ class MainFragment : Fragment() {
         mainViewModelFactory = MainViewModelFactory((activity?.application as MPApplication).settingsRepository)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        setCurrentSettingsObserver()
 
         return binding.root
     }
@@ -44,24 +49,49 @@ class MainFragment : Fragment() {
         super.onResume()
 
         recentlyViewedMemberFromPrefs()
-
+        updateDbLastUpdatedText()
     }
 
-    // SharedPreferences testing.
-    // Image fetching needs to be added.
+    /** Fetches the recently viewed Member from SharedPreferences and the cached picture of the Member.*/
     private fun recentlyViewedMemberFromPrefs() {
         try {
+
             val gson = Gson()
-            val sharedPrefs = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-            val json = sharedPrefs.getString("recentlyViewedMember", "")
+            val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            val json = sharedPrefs?.getString("recentlyViewedMember", "")
             recentlyViewedMember = gson.fromJson(json, Member::class.java)
 
             binding.mainMemberFirstname.text = recentlyViewedMember.first
             binding.mainMemberLastname.text = recentlyViewedMember.last
 
+            MembersApi.setMemberImage(recentlyViewedMember.picture, binding.mainMemberImage, this)
+
             Log.d("MainFragment", "Success retrieving recently viewed member.")
         } catch (e: Exception) {
             Log.d("MainFragment", "Failed to fetch recently viewed member. ${e.message}")
         }
+    }
+
+    /** Gets the current settings from the database and displays them on the fragment. */
+    private fun setCurrentSettingsObserver() {
+        mainViewModel.getSettings().observe(viewLifecycleOwner, { s ->
+            s.let {
+                settings = it
+                val chosenParties = settings.chosenParties()
+                var chosenPartiesText = "Parties displayed:"
+                for (i in 0 until chosenParties.size - 1) {
+                    chosenPartiesText += "\n${chosenParties[i]}"
+                }
+                chosenPartiesText += "\nAge range: ${settings.minAge} - ${settings.maxAge}"
+                binding.mainCurrentSettings.text = chosenPartiesText
+            }
+        })
+    }
+
+    /** Updates the db updated text in the Fragment. */
+    private fun updateDbLastUpdatedText() {
+        val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val lastUpdated = sharedPrefs?.getString("dbLastUpdated", "")
+        binding.mainLastUpdatedText.text = lastUpdated
     }
 }
