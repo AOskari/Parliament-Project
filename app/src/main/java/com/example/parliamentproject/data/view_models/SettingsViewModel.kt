@@ -4,9 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.repositories.SettingsRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
 /** A ViewModel subclass used for storing data used in the SettingsFragment. */
 class SettingsViewModel(private val repository: SettingsRepository) : ViewModel() {
+
+    var settings = Settings()
+    val applicationScope = CoroutineScope(SupervisorJob())
 
     /** Returns the settings fetched from the Room Database. */
     fun getSettings() = repository.getSettings()

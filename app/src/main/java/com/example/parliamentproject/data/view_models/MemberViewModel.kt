@@ -10,9 +10,12 @@ import com.example.parliamentproject.data.repositories.ReviewRepository
  * @member: The currently selected Member object in the MemberFragment.m*/
 class MemberViewModel(private val repository: ReviewRepository, val member: Member) : ViewModel() {
 
+    var showReviews = false
+
     /** Retrieves Review objects from the Room Database utilizing the ReviewRepository.
      * @personNumber: the personNumber of the Member object. */
     fun getReviewsByPersonNumber(personNumber: Int) = repository.getReviewsByPersonNumber(personNumber)
+
 
 }
 

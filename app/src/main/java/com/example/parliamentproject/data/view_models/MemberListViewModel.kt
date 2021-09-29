@@ -11,12 +11,11 @@ import java.lang.StringBuilder
 /** A subclass of ViewModel. Provides the necessary data to the MemberListFragment. */
 class MemberListViewModel(private val memberRepository: MemberRepository, private val settingsRepository: SettingsRepository): ViewModel() {
 
+    var settings = Settings()
+
     /** Calls the getMembers function of the MemberRepository.
-     * @param: the given SearchView input.
-     * @parties: A list of the parties selected in the Settings object.
-     * @minAge: The minimum selected age in the Settings.
-     * @maxAge: The maximum age selected in the Settings. */
-    fun getMembers(param: String, parties: List<String>,  minAge: Int, maxAge: Int) = memberRepository.getMembers(param, parties, minAge, maxAge)
+     * @param: The SearchView input. */
+    fun getMembers(param: String) = memberRepository.getMembers(param, settings.chosenParties(), settings.minAge, settings.maxAge)
 
     /** Returns the current settings from the Room Database. */
     fun getSettings() = settingsRepository.getSettings()

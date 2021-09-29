@@ -1,7 +1,6 @@
 package com.example.parliamentproject.fragments
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,12 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.data_classes.Member
-import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.view_models.*
 import com.example.parliamentproject.databinding.FragmentMainBinding
 import com.example.parliamentproject.network.MembersApi
 import com.google.gson.Gson
-import java.util.*
 
 /** A Fragment subclass which displays a summary of the usage of the app. */
 class MainFragment : Fragment() {
@@ -26,45 +23,43 @@ class MainFragment : Fragment() {
     private lateinit var mainViewModel : MainViewModel
     private lateinit var mainViewModelFactory: MainViewModelFactory
     private lateinit var binding : FragmentMainBinding
-    private lateinit var recentlyViewedMember : Member
-
-    private lateinit var settings : Settings
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        // Setting up the binding.
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+
         // Getting or creating the MainViewModel instance depending if there is one or not.
         mainViewModelFactory = MainViewModelFactory((activity?.application as MPApplication).settingsRepository)
         mainViewModel = ViewModelProvider(this, mainViewModelFactory).get(MainViewModel::class.java)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-        setCurrentSettingsObserver()
+        setSettingsObserver()
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
-        recentlyViewedMemberFromPrefs()
+        setRecentlyViewedMember()
         updateDbLastUpdatedText()
     }
 
     /** Fetches the recently viewed Member from SharedPreferences and the cached picture of the Member.*/
-    private fun recentlyViewedMemberFromPrefs() {
+    private fun setRecentlyViewedMember() {
         try {
 
             val gson = Gson()
             val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
             val json = sharedPrefs?.getString("recentlyViewedMember", "")
-            recentlyViewedMember = gson.fromJson(json, Member::class.java)
+            val lastMember = gson.fromJson(json, Member::class.java)
 
-            binding.mainMemberFirstname.text = recentlyViewedMember.first
-            binding.mainMemberLastname.text = recentlyViewedMember.last
+            binding.mainMemberFirstname.text = lastMember.first
+            binding.mainMemberLastname.text = lastMember.last
 
-            MembersApi.setMemberImage(recentlyViewedMember.picture, binding.mainMemberImage, this)
+            MembersApi.setMemberImage(lastMember.picture, binding.mainMemberImage, this)
 
             Log.d("MainFragment", "Success retrieving recently viewed member.")
         } catch (e: Exception) {
@@ -73,16 +68,14 @@ class MainFragment : Fragment() {
     }
 
     /** Gets the current settings from the database and displays them on the fragment. */
-    private fun setCurrentSettingsObserver() {
+    private fun setSettingsObserver() {
         mainViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
-                settings = it
-                val chosenParties = settings.chosenParties()
                 var chosenPartiesText = "Parties displayed:"
-                for (i in 0 until chosenParties.size - 1) {
-                    chosenPartiesText += "\n${chosenParties[i]}"
+                for (i in 0 until it.chosenParties().size - 1) {
+                    chosenPartiesText += "\n${it.chosenParties()[i]}"
                 }
-                chosenPartiesText += "\nAge range: ${settings.minAge} - ${settings.maxAge}"
+                chosenPartiesText += "\nAge range: ${it.minAge} - ${it.maxAge}"
                 binding.mainCurrentSettings.text = chosenPartiesText
             }
         })

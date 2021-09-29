@@ -25,11 +25,8 @@ import kotlinx.coroutines.launch
 class SettingsFragment : DialogFragment() {
 
     private lateinit var binding : FragmentSettingsBinding
-    private lateinit var settings : Settings
     private lateinit var settingsViewModel: SettingsViewModel
     private lateinit var settingsViewModelFactory: SettingsViewModelFactory
-
-    private val applicationScope = CoroutineScope(SupervisorJob())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +42,7 @@ class SettingsFragment : DialogFragment() {
         // Setting an observer for updating the radio buttons.
         settingsViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
-                settings = it
+                settingsViewModel.settings = it
                 updateRadioButtons()
             }
         })
@@ -72,7 +69,7 @@ class SettingsFragment : DialogFragment() {
             binding.vasRadio.isChecked, binding.vihrRadio.isChecked )
 
         settingsViewModel.let {
-            applicationScope.launch {
+            settingsViewModel.applicationScope.launch {
                 settingsViewModel.updateSettings(newSettings)
             }
         }
@@ -81,15 +78,15 @@ class SettingsFragment : DialogFragment() {
     /** Updates the radiobuttons. */
     private fun updateRadioButtons() {
 
-        binding.kdpRadio.isChecked = settings.showKDP
-        binding.keskRadio.isChecked = settings.showKesk
-        binding.kokRadio.isChecked = settings.showKok
-        binding.liikRadio.isChecked = settings.showLiik
-        binding.psRadio.isChecked = settings.showPS
-        binding.rRadio.isChecked = settings.showRKP
-        binding.sdRadio.isChecked = settings.showSDP
-        binding.vasRadio.isChecked = settings.showVas
-        binding.vihrRadio.isChecked = settings.showVihr
+        binding.kdpRadio.isChecked = settingsViewModel.settings.showKDP
+        binding.keskRadio.isChecked = settingsViewModel.settings.showKesk
+        binding.kokRadio.isChecked = settingsViewModel.settings.showKok
+        binding.liikRadio.isChecked = settingsViewModel.settings.showLiik
+        binding.psRadio.isChecked = settingsViewModel.settings.showPS
+        binding.rRadio.isChecked = settingsViewModel.settings.showRKP
+        binding.sdRadio.isChecked = settingsViewModel.settings.showSDP
+        binding.vasRadio.isChecked = settingsViewModel.settings.showVas
+        binding.vihrRadio.isChecked = settingsViewModel.settings.showVihr
     }
 
 }

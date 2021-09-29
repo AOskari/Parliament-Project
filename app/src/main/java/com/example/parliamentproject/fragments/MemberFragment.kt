@@ -2,6 +2,7 @@ package com.example.parliamentproject.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,22 +28,14 @@ import com.google.gson.Gson
 class MemberFragment : Fragment() {
 
     private lateinit var binding : FragmentMemberBinding
-    private lateinit var member: Member
     private lateinit var adapter : ReviewListAdapter
     private lateinit var memberViewModel : MemberViewModel
     private lateinit var memberViewModelFactory: MemberViewModelFactory
-
-    private var showReviews = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Getting or creating the MemberViewModel instance depending if there is one or not.
-        memberViewModelFactory = MemberViewModelFactory((activity?.application as MPApplication).reviewRepository,
-            MemberFragmentArgs.fromBundle(requireArguments()).member)
-        memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
 
         // Setting up the binding and adapter for the RecyclerView.
         adapter = ReviewListAdapter()
@@ -51,17 +44,23 @@ class MemberFragment : Fragment() {
         binding.memberReviews.layoutManager = LinearLayoutManager(requireContext())
         binding.memberReviews.setHasFixedSize(true)
 
+        // Getting or creating the MemberViewModel instance depending if there is one or not.
+        memberViewModelFactory = MemberViewModelFactory((activity?.application as MPApplication).reviewRepository,
+            MemberFragmentArgs.fromBundle(requireArguments()).member)
+        memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
+
         // Setting the UI properties
         setUIProperties()
 
         // Setting an observer to the LiveData list of Reviews for updating the reviews.
-        memberViewModel.getReviewsByPersonNumber(member.personNumber).observe(viewLifecycleOwner, { list ->
+        memberViewModel.getReviewsByPersonNumber(memberViewModel.member.personNumber).observe(viewLifecycleOwner, { list ->
             list.let {
                 adapter.setData(list)
             }
         })
 
-        recentlyViewedMemberToPrefs(member)
+        // Adding the currently shown Member to the SharedPreferences.
+        recentlyViewedMemberToPrefs(memberViewModel.member)
 
         return binding.root
     }
@@ -69,7 +68,7 @@ class MemberFragment : Fragment() {
     /** Sets up the UI using the saved properties in the MemberViewModel object. */
     private fun setUIProperties() {
 
-        member = memberViewModel.member
+        val member = memberViewModel.member
 
         // Gets the image of the chosen MP and caches it.
         MembersApi.setMemberImage(member.picture, binding.memberPicture, this)
@@ -104,13 +103,13 @@ class MemberFragment : Fragment() {
 
     /** Opens the MemberReviewFragment with the currently selected Member. */
     private fun openReviewFragment() {
-        val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(member)
+        val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
         findNavController().navigate(action)
     }
 
     /** Changes the guideline percentage for expanding the RecyclerView containing the reviews. */
     private fun toggleReviewsDisplay() {
-        showReviews = !showReviews
+        memberViewModel.showReviews = !memberViewModel.showReviews
         val guideline : Guideline = binding.guideline6
         val toggleButton = binding.reviewToggle
         val image = binding.memberPicture
@@ -120,7 +119,7 @@ class MemberFragment : Fragment() {
         val twitterUrl = binding.twitterLink
         val miscBar = binding.miscBar
 
-        if (showReviews) {
+        if (memberViewModel.showReviews) {
             guideline.setGuidelinePercent(0.15f)
             toggleButton.text = "Hide reviews"
             image.visibility = GONE
@@ -145,7 +144,7 @@ class MemberFragment : Fragment() {
     /** Adds or updates the recently viewed Member object stored in the SharedPreferences. */
     private fun recentlyViewedMemberToPrefs(member: Member) {
         val gson = Gson()
-        val sharedPrefs = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE) ?: return
         val prefsEditor = sharedPrefs.edit()
         val json = gson.toJson(member)
         prefsEditor.putString("recentlyViewedMember", json)

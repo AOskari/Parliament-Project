@@ -11,41 +11,28 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.adapters.MemberListAdapter
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.*
-import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.view_models.MemberListViewModel
 import com.example.parliamentproject.data.view_models.MemberListViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberListBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 /** A Fragment subclass, which displays all found members of parliament in a RecyclerView. */
 class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentMemberListBinding
     private lateinit var adapter : MemberListAdapter
-    private lateinit var settings : Settings
     private lateinit var memberListViewModel : MemberListViewModel
     private lateinit var memberListViewModelFactory: MemberListViewModelFactory
-
-    private var chosenParties = listOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        // Getting or creating the MemberListViewModel instance depending if there is one or not.
-        memberListViewModelFactory = MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
-            (activity?.application as MPApplication).settingsRepository)
-        memberListViewModel = ViewModelProvider(this, memberListViewModelFactory).get(MemberListViewModel::class.java)
+    ): View {
 
         adapter = MemberListAdapter()
 
@@ -56,16 +43,19 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recyclerView.setHasFixedSize(true)
         binding.searchview.setOnQueryTextListener(this)
 
-        binding.searchview.setOnClickListener {
-            binding.searchview.isIconified = false
-        }
+        // Getting or creating the MemberListViewModel instance depending if there is one or not.
+        memberListViewModelFactory = MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
+            (activity?.application as MPApplication).settingsRepository)
+        memberListViewModel = ViewModelProvider(this, memberListViewModelFactory).get(MemberListViewModel::class.java)
 
+        // Enables the SearchView to be activated by clicking it anywhere.
+        binding.searchview.setOnClickListener { binding.searchview.isIconified = false }
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
             
-            val key = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            key.hideSoftInputFromWindow(view?.windowToken, 0)
+            val kb = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            kb.hideSoftInputFromWindow(view?.windowToken, 0)
 
             val action = MemberListFragmentDirections.actionMemberListFragmentToSettingsFragment()
             findNavController().navigate(action)
@@ -74,9 +64,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         // Applying an observer to the settings to get the latest updates to the settings.
         memberListViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
-                settings = it
-                chosenParties = settings.chosenParties()
-                Log.d("MemberListFragment", "Settings changed. Updating it. $chosenParties")
+                memberListViewModel.settings = it
+                Log.d("MemberListFragment", "Updating settings: ${memberListViewModel.settings.chosenParties()}")
             }
         })
 
@@ -87,12 +76,12 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      * @onQueryTextSubmit
      * @onQueryTextChange */
     override fun onQueryTextSubmit(query: String): Boolean {
-        if (query != null && (query != "")) getMembers(query)
+        if (query != "") getMembers(query)
         else adapter.setData(emptyList())
         return true
     }
     override fun onQueryTextChange(query: String): Boolean {
-        if (query != null && (query != "")) getMembers(query)
+        if (query != "") getMembers(query)
         else adapter.setData(emptyList())
         return true
     }
@@ -103,9 +92,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         val searchQuery = "%$query%"
 
-        Log.d("getMembers in MemberList", "Current searchQuery: $searchQuery and query: $query")
-
-        memberListViewModel.getMembers(searchQuery, chosenParties, settings.minAge, settings.maxAge).observe(this, { list ->
+        memberListViewModel.getMembers(searchQuery).observe(this, { list ->
             list.let {
                 adapter.setData(it)
                 Log.d("observer update called", it.toString())

@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,6 +19,8 @@ import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.data_classes.Review
+import com.example.parliamentproject.data.view_models.MemberViewModel
+import com.example.parliamentproject.data.view_models.MemberViewModelFactory
 import com.example.parliamentproject.data.view_models.ReviewViewModel
 import com.example.parliamentproject.data.view_models.ReviewViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberReviewBinding
@@ -28,33 +31,25 @@ import kotlinx.coroutines.launch
 /** A Fragment subclass used for the creation of new Review objects. */
 class MemberReviewFragment : Fragment() {
 
+    private lateinit var reviewViewModel : ReviewViewModel
+    private lateinit var reviewViewModelFactory: ReviewViewModelFactory
     private lateinit var binding : FragmentMemberReviewBinding
-    private lateinit var member : Member
-
-    private val applicationScope = CoroutineScope(SupervisorJob())
-    private var rating = 0
-
-    private var star1Active = false
-    private var star2Active = false
-    private var star3Active = false
-    private var star4Active = false
-    private var star5Active = false
-
-    private val reviewViewModel : ReviewViewModel by viewModels {
-        ReviewViewModelFactory((activity?.application as MPApplication).reviewRepository)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val args: MemberReviewFragmentArgs by navArgs()
-        member = args.member
-
+        // Setting up the binding.
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_review, container, false)
-        binding.saveReview.setOnClickListener { saveReview() }
 
+        // Getting or creating the ReviewViewModel instance depending if there is one or not.
+        reviewViewModelFactory = ReviewViewModelFactory((activity?.application as MPApplication).reviewRepository,
+            MemberReviewFragmentArgs.fromBundle(requireArguments()).member)
+        reviewViewModel = ViewModelProvider(this, reviewViewModelFactory).get(ReviewViewModel::class.java)
+
+        // Setting onClickListeners to the save button and rating buttons.
+        binding.saveReview.setOnClickListener { saveReview() }
         setRatingButtonListeners()
 
         return binding.root
@@ -64,20 +59,21 @@ class MemberReviewFragment : Fragment() {
      * Goes back to the MemberFragment after saving the content. */
     private fun saveReview() {
 
-        rating = when {
-            star5Active -> 5
-            star4Active -> 4
-            star4Active -> 3
-            star4Active -> 2
-            star4Active -> 1
+        reviewViewModel.rating = when {
+            reviewViewModel.star5Active -> 5
+            reviewViewModel.star4Active -> 4
+            reviewViewModel.star4Active -> 3
+            reviewViewModel.star4Active -> 2
+            reviewViewModel.star4Active -> 1
             else -> 0
         }
 
-        val review = Review(member.personNumber, binding.reviewTitle.text.toString(), binding.commentField.text.toString(), rating)
+        val review = Review(reviewViewModel.member.personNumber, binding.reviewTitle.text.toString(),
+            binding.commentField.text.toString(), reviewViewModel.rating)
 
         try {
             let {
-                applicationScope.launch {
+                reviewViewModel.applicationScope.launch {
                     reviewViewModel.addReview(review)
                     Log.d("MemberReviewFragment", "Launched coroutine for addReview.")
                 }
@@ -89,7 +85,7 @@ class MemberReviewFragment : Fragment() {
             Log.d("MemberReviewFragment", "Saving review failed.")
         }
 
-        val action = MemberReviewFragmentDirections.actionMemberReviewFragmentToMemberFragment(member)
+        val action = MemberReviewFragmentDirections.actionMemberReviewFragmentToMemberFragment(reviewViewModel.member)
         findNavController().navigate(action)
     }
 
@@ -98,38 +94,33 @@ class MemberReviewFragment : Fragment() {
     private fun setRatingButtonListeners() {
 
         binding.rating1.setOnClickListener {
-            star1Active = !star1Active
-            if (star1Active) setStarsActive(1)
+            reviewViewModel.star1Active = !reviewViewModel.star1Active
+            if (reviewViewModel.star1Active) setStarsActive(1)
             else setStarsInactive(5)
-            Log.d("Rating btn clicked", "1 status: $star1Active")
         }
 
         binding.rating2.setOnClickListener {
-            star2Active = !star2Active
-            if (star2Active) setStarsActive(2)
+            reviewViewModel.star2Active = !reviewViewModel.star2Active
+            if (reviewViewModel.star2Active) setStarsActive(2)
             else setStarsInactive(4)
-            Log.d("Rating btn clicked", "2 status: $star2Active")
         }
 
         binding.rating3.setOnClickListener {
-            star3Active = !star3Active
-            if (star3Active) setStarsActive(3)
+            reviewViewModel.star3Active = !reviewViewModel.star3Active
+            if (reviewViewModel.star3Active) setStarsActive(3)
             else setStarsInactive(3)
-            Log.d("Rating btn clicked", "3 status: $star3Active")
         }
 
         binding.rating4.setOnClickListener {
-            star4Active = !star4Active
-            if (star4Active) setStarsActive(4)
+            reviewViewModel.star4Active = !reviewViewModel.star4Active
+            if (reviewViewModel.star4Active) setStarsActive(4)
             else setStarsInactive(2)
-            Log.d("Rating btn clicked", "4 status: $star4Active")
         }
 
         binding.rating5.setOnClickListener {
-            star5Active = !star5Active
-            if (star5Active) setStarsActive(5)
+            reviewViewModel.star5Active = !reviewViewModel.star5Active
+            if (reviewViewModel.star5Active) setStarsActive(5)
             else setStarsInactive(1)
-            Log.d("Rating btn clicked", "5 status: $star5Active")
         }
 
     }
