@@ -118,6 +118,7 @@ class MemberFragment : Fragment() {
         val twitterImg = binding.twitterLogo
         val twitterUrl = binding.twitterLink
         val miscBar = binding.miscBar
+        val addReview = binding.addReview
 
         if (memberViewModel.showReviews) {
             guideline.setGuidelinePercent(0.15f)
@@ -128,6 +129,7 @@ class MemberFragment : Fragment() {
             twitterImg.visibility = GONE
             twitterUrl.visibility = GONE
             miscBar.visibility = GONE
+            addReview.visibility = GONE
         }
         else {
             guideline.setGuidelinePercent(0.6f)
@@ -138,6 +140,7 @@ class MemberFragment : Fragment() {
             twitterImg.visibility = VISIBLE
             twitterUrl.visibility = VISIBLE
             miscBar.visibility = VISIBLE
+            addReview.visibility = VISIBLE
         }
     }
 

@@ -287,8 +287,11 @@
                 android:clickable="true"
                 android:elevation="10dp"
                 android:src="@drawable/add"
+                android:backgroundTint="@color/colorSecondary"
+                android:animateLayoutChanges="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/review_toggle"
@@ -301,6 +304,7 @@
                 android:elevation="10dp"
                 android:text="Expand reviews"
                 android:textColor="@color/white"
+                android:animateLayoutChanges="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

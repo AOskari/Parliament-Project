@@ -42,6 +42,7 @@
     <string name="off">HIDE</string>
     <string name="placeholder_min_age">30</string>
     <string name="placeholder_max_age">80</string>
+    <string name="save">Save</string>
 
     <!-- MemberReviewFragment strings -->
     <string name="title_placeholder">A Review</string>
@@ -49,7 +50,7 @@
     <string name="reviewHint">Write your comment here</string>
 
     <!-- MainFragment strings -->
-    <string name="welcome">Welcome!</string>
+    <string name="overview">Overview</string>
     <string name="db_updated">Database updated</string>
     <string name="last_viewed">Last viewed MP</string>
     <string name="current_settings">Current settings</string>

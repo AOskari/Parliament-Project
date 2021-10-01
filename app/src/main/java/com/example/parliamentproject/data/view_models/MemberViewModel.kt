@@ -19,7 +19,6 @@ class MemberViewModel(private val repository: ReviewRepository, val member: Memb
     fun toggleShowReviews() {
         showReviews = !showReviews
     }
-
 }
 
 /** A Factory method for creating or getting an instance of the MemberViewModel object.

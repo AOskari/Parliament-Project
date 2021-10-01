@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = "settings_table")
 data class Settings (
-    @PrimaryKey(autoGenerate = true)
     var showKDP: Boolean = true,
     var showKesk: Boolean = true,
     var showKok: Boolean = true,
@@ -24,7 +23,11 @@ data class Settings (
     var maxAge : Int = 100
         )  : Parcelable {
 
-    /** Returns settins as a List of Strings. */
+
+    @ColumnInfo(name = "primaryKey", defaultValue = "0")
+    @PrimaryKey var i: String = "0"
+
+    /** Returns settings as a List of Strings. */
     fun chosenParties() : List<String> {
         val list = mutableListOf<String>()
 

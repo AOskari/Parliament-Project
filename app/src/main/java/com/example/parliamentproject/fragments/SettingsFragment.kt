@@ -41,8 +41,9 @@ class SettingsFragment : Fragment() {
         settingsViewModel = ViewModelProvider(this, settingsViewModelFactory).get(SettingsViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
-
         updateUI()
+
+        Log.d("SettingsFragment", "onCreateView: showKDP: ${binding.kdpRadio.isChecked}")
 
         // Setting an observer for updating the radio buttons.
         settingsViewModel.getSettings().observe(viewLifecycleOwner, { s ->
@@ -73,8 +74,6 @@ class SettingsFragment : Fragment() {
 
         val ageValues = binding.ageSlider.values
 
-        Log.d("SettingsFragment", "Updating settings. minAge: ${ageValues[0]}, maxAge: ${ageValues[1]}")
-
         val newSettings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
             binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
             binding.vasRadio.isChecked, binding.vihrRadio.isChecked, ageValues[0].toInt(), ageValues[1].toInt())
@@ -84,6 +83,7 @@ class SettingsFragment : Fragment() {
                 settingsViewModel.updateSettings(newSettings)
             }
         }
+        Log.d("SettingsFragment", "Updating settings. showKDP: ${binding.kdpRadio.isChecked}")
     }
 
     /** Updates the RadioButtons and RangeSlider. */
