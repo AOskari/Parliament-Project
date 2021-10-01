@@ -109,7 +109,7 @@ class MemberFragment : Fragment() {
 
     /** Changes the guideline percentage for expanding the RecyclerView containing the reviews. */
     private fun toggleReviewsDisplay() {
-        memberViewModel.showReviews = !memberViewModel.showReviews
+        memberViewModel.toggleShowReviews()
         val guideline : Guideline = binding.guideline6
         val toggleButton = binding.reviewToggle
         val image = binding.memberPicture

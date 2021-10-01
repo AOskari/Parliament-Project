@@ -20,6 +20,10 @@ class SettingsViewModel(private val repository: SettingsRepository) : ViewModel(
      *  @settings: the modified Settings object. */
     fun updateSettings(settings: Settings) = repository.updateSettings(settings)
 
+    /** Updates the Settings variable. */
+    fun updateSettingsInViewModel(s: Settings?) {
+        settings = s ?: Settings()
+    }
 }
 
 /** Used for creating an instance of the SettingsViewModel, or fetching an already created instance of it. */

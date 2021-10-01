@@ -16,6 +16,9 @@ class MemberViewModel(private val repository: ReviewRepository, val member: Memb
      * @personNumber: the personNumber of the Member object. */
     fun getReviewsByPersonNumber(personNumber: Int) = repository.getReviewsByPersonNumber(personNumber)
 
+    fun toggleShowReviews() {
+        showReviews = !showReviews
+    }
 
 }
 

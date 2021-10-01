@@ -19,6 +19,11 @@ class MemberListViewModel(private val memberRepository: MemberRepository, privat
 
     /** Returns the current settings from the Room Database. */
     fun getSettings() = settingsRepository.getSettings()
+
+    /** Updates the Settings variable. */
+    fun updateSettings(s: Settings?) {
+        settings = s ?: Settings()
+    }
 }
 
 /** Used for creating or fetching an instance of the MemberListViewModel. */

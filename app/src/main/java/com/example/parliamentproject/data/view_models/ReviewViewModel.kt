@@ -23,6 +23,24 @@ class ReviewViewModel(private val reviewRepository: ReviewRepository, val member
 
     /** Adds the created Review into the Database. */
     suspend fun addReview(review: Review) = reviewRepository.addReview(review)
+
+
+    /** Functions for toggling the starActive Boolean variables. */
+    fun toggleStar1Active() {
+        star1Active = !star1Active
+    }
+    fun toggleStar2Active() {
+        star2Active = !star2Active
+    }
+    fun toggleStar3Active() {
+        star3Active = !star3Active
+    }
+    fun toggleStar4Active() {
+        star4Active = !star4Active
+    }
+    fun toggleStar5Active() {
+        star5Active = !star5Active
+    }
 }
 
 /** Used for creating a ReviewVielModel, which has the variables saved in it.*/

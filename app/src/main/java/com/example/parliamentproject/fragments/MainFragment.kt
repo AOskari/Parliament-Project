@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.data_classes.Member
+import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.view_models.*
 import com.example.parliamentproject.databinding.FragmentMainBinding
 import com.example.parliamentproject.network.MembersApi
@@ -72,11 +73,12 @@ class MainFragment : Fragment() {
     private fun setSettingsObserver() {
         mainViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
+                mainViewModel.updateSettings(it)
                 var chosenPartiesText = "Parties displayed:"
-                for (i in 0 until it.chosenParties().size - 1) {
-                    chosenPartiesText += "\n${it.chosenParties()[i]}"
+                for (i in 0 until mainViewModel.settings.chosenParties().size - 1) {
+                    chosenPartiesText += "\n${mainViewModel.settings.chosenParties()[i]}"
                 }
-                chosenPartiesText += "\nAge range: ${it.minAge} - ${it.maxAge}"
+                chosenPartiesText += "\nAge range:\n${mainViewModel.settings.minAge} - ${mainViewModel.settings.maxAge}"
                 binding.mainCurrentSettings.text = chosenPartiesText
             }
         })

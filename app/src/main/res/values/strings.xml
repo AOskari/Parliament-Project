@@ -38,9 +38,10 @@
     <string name="switchsd">SD  </string>
     <string name="switchvas">Vas  </string>
     <string name="switchvihr">Vihr  </string>
-    <string name="on">ON</string>
-    <string name="off">OFF</string>
-
+    <string name="on">SHOW</string>
+    <string name="off">HIDE</string>
+    <string name="placeholder_min_age">30</string>
+    <string name="placeholder_max_age">80</string>
 
     <!-- MemberReviewFragment strings -->
     <string name="title_placeholder">A Review</string>

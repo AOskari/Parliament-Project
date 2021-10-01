@@ -53,7 +53,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         // Setting an onClickListener which opens the settings DialogFragment.
         binding.settingsButton.setOnClickListener {
-            
+
+            // Hiding the soft keyboard.
             val kb = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             kb.hideSoftInputFromWindow(view?.windowToken, 0)
 
@@ -64,7 +65,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         // Applying an observer to the settings to get the latest updates to the settings.
         memberListViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
-                memberListViewModel.settings = it
+                memberListViewModel.updateSettings(it)
                 Log.d("MemberListFragment", "Updating settings: ${memberListViewModel.settings.chosenParties()}")
             }
         })
@@ -77,12 +78,18 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
      * @onQueryTextChange */
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query != "") getMembers(query)
-        else adapter.setData(emptyList())
+        else {
+            adapter.setData(emptyList())
+            binding.searchStatus.text = "0 Members found"
+        }
         return true
     }
     override fun onQueryTextChange(query: String): Boolean {
         if (query != "") getMembers(query)
-        else adapter.setData(emptyList())
+        else {
+            adapter.setData(emptyList())
+            binding.searchStatus.text = "0 Members found"
+        }
         return true
     }
 
@@ -95,6 +102,7 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
         memberListViewModel.getMembers(searchQuery).observe(this, { list ->
             list.let {
                 adapter.setData(it)
+                binding.searchStatus.text = "${list.size} ${if (it.size == 1) "Member" else "Members"} found"
                 Log.d("observer update called", it.toString())
             }
         })

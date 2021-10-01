@@ -94,31 +94,31 @@ class MemberReviewFragment : Fragment() {
     private fun setRatingButtonListeners() {
 
         binding.rating1.setOnClickListener {
-            reviewViewModel.star1Active = !reviewViewModel.star1Active
+            reviewViewModel.toggleStar1Active()
             if (reviewViewModel.star1Active) setStarsActive(1)
             else setStarsInactive(5)
         }
 
         binding.rating2.setOnClickListener {
-            reviewViewModel.star2Active = !reviewViewModel.star2Active
+            reviewViewModel.toggleStar2Active()
             if (reviewViewModel.star2Active) setStarsActive(2)
             else setStarsInactive(4)
         }
 
         binding.rating3.setOnClickListener {
-            reviewViewModel.star3Active = !reviewViewModel.star3Active
+            reviewViewModel.toggleStar3Active()
             if (reviewViewModel.star3Active) setStarsActive(3)
             else setStarsInactive(3)
         }
 
         binding.rating4.setOnClickListener {
-            reviewViewModel.star4Active = !reviewViewModel.star4Active
+            reviewViewModel.toggleStar4Active()
             if (reviewViewModel.star4Active) setStarsActive(4)
             else setStarsInactive(2)
         }
 
         binding.rating5.setOnClickListener {
-            reviewViewModel.star5Active = !reviewViewModel.star5Active
+            reviewViewModel.toggleStar5Active()
             if (reviewViewModel.star5Active) setStarsActive(5)
             else setStarsInactive(1)
         }

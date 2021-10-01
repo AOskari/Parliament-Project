@@ -3,6 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--
+    <data>
+        <variable
+            name="settings"
+            type="Settings" />
+    </data> -->
+
     <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent"
@@ -27,7 +34,7 @@
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/settings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:textColor="@color/black"
+                android:textColor="@color/colorSecondary2"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +50,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchkdp"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -63,6 +71,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchkesk"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -81,6 +90,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchkok"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -99,6 +109,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchliik"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -119,6 +130,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchps"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -139,6 +151,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchr"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -157,6 +170,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchsd"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -175,6 +189,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchvas"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -193,6 +208,7 @@
                 android:checked="true"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/switchvihr"
+                android:textColor="@color/colorSecondary2"
                 android:textOff="@string/off"
                 android:textOn="@string/on"
                 android:textSize="24sp"
@@ -204,15 +220,15 @@
                 app:showText="true"
                 app:track="@drawable/custom_switchtrack" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/settingsBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="@color/colorSecondary2"
                 android:text="@string/back"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -235,7 +251,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/settings_max_age"
                 app:layout_constraintStart_toEndOf="@+id/settings_min_age"
                 app:layout_constraintTop_toBottomOf="@+id/settings_range_text"
-                app:values="@array/initial_slider_values" />
+                app:values="@array/initial_slider_values"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/settings_range_text"
@@ -246,12 +263,13 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/century_gothic_font"
                 android:text="@string/age_range"
-                android:textColor="@color/white"
+                android:textColor="@color/colorSecondary2"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline4" />
+                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/settings_min_age"
@@ -259,13 +277,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/century_gothic_font"
-                android:text="30"
-                android:textColor="@color/white"
+                android:text="@string/placeholder_min_age"
+                android:textColor="@color/colorSecondary2"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/age_slider"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/age_slider" />
+                app:layout_constraintTop_toTopOf="@+id/age_slider"
+                tools:ignore="TextContrastCheck" />
 
             <TextView
                 android:id="@+id/settings_max_age"
@@ -273,13 +292,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/century_gothic_font"
-                android:text="80"
-                android:textColor="@color/white"
+                android:text="@string/placeholder_max_age"
+                android:textColor="@color/colorSecondary2"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/age_slider"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/age_slider" />
+                app:layout_constraintTop_toTopOf="@+id/age_slider"
+                tools:ignore="TextContrastCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

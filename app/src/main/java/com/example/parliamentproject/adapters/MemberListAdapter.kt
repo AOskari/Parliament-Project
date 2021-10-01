@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.databinding.MemberlistRowBinding
@@ -18,49 +19,37 @@ import com.example.parliamentproject.fragments.MemberListFragmentDirections
  * age, party and minister status. */
 class MemberListAdapter: RecyclerView.Adapter<MemberListAdapter.MemberListViewHolder>() {
 
-    private lateinit var binding : MemberlistRowBinding
     private var memberList : List<Member> = emptyList()
 
     /** Called once everytime a new row is created on the RecyclerView. */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberListViewHolder {
-        binding = MemberlistRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        Log.d("MemberListAdapter onCreateViewHolder", "Called. memberList: $memberList")
+        val binding = MemberlistRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MemberListViewHolder(binding)
     }
 
     /** Updates the rows when scrolling the RecyclerView. */
     override fun onBindViewHolder(holder: MemberListViewHolder, position: Int) {
-        binding.member = memberList[position]
-        Log.d("MemberListAdapter onBindViewHolder", "Called. current member: ${binding.member}")
+
+        holder.binding.member = memberList[position]
+        holder.binding.memberInfoButton.setOnClickListener {
+            val action = MemberListFragmentDirections.actionMemberListFragmentToMemberFragment(holder.binding.member as Member)
+            holder.itemView.findNavController().navigate(action)
+        }
     }
 
     /** Returns the size of the current list. */
     override fun getItemCount() = memberList.size
 
     /** Returns the position of the row. */
-    // Currently this prevents the RecyclerView from updating the data
-    // when making new queries with the SearchView.
     override fun getItemViewType(position: Int) = position
 
     /** Updates the data in the memberList variable. */
     fun setData(members: List<Member>) {
-        memberList = members
+        this.memberList = members
         notifyDataSetChanged()
-
-
-        Log.d("MemberListAdapter setData", "List parameter: $memberList")
     }
 
     /** Defines the content of each row on the RecycleView. */
-    class MemberListViewHolder(binding: MemberlistRowBinding) : RecyclerView.ViewHolder(binding.root) {
-        val partyText: TextView = binding.partyAbbreviation
-        val memberName: TextView = binding.memberName
-        val memberStatusInfo: TextView = binding.memberStatusInfo
-
-        val infoButton = binding.memberInfoButton.setOnClickListener {
-            val action = MemberListFragmentDirections.actionMemberListFragmentToMemberFragment(binding.member as Member)
-            Navigation.findNavController(itemView).navigate(action)
-        }
-    }
+    class MemberListViewHolder(val binding: MemberlistRowBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

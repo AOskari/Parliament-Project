@@ -47,7 +47,7 @@ class SettingsFragment : Fragment() {
         // Setting an observer for updating the radio buttons.
         settingsViewModel.getSettings().observe(viewLifecycleOwner, { s ->
             s.let {
-                settingsViewModel.settings = it
+                settingsViewModel.updateSettingsInViewModel(it)
                 updateUI()
             }
         })
@@ -78,8 +78,6 @@ class SettingsFragment : Fragment() {
         val newSettings = Settings( binding.kdpRadio.isChecked, binding.keskRadio.isChecked, binding.kokRadio.isChecked,
             binding.liikRadio.isChecked, binding.psRadio.isChecked, binding.rRadio.isChecked, binding.sdRadio.isChecked,
             binding.vasRadio.isChecked, binding.vihrRadio.isChecked, ageValues[0].toInt(), ageValues[1].toInt())
-
-
 
         settingsViewModel.let {
             settingsViewModel.applicationScope.launch {
