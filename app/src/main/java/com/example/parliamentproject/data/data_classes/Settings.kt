@@ -6,9 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-/**
- * Stores all the settings data. This is stored in the Room Database.
- */
+/** Stores all the settings data. This is stored in the Room Database. */
 @Parcelize
 @Entity(tableName = "settings_table")
 data class Settings (
@@ -26,9 +24,7 @@ data class Settings (
     var maxAge : Int = 100
         )  : Parcelable {
 
-    /**
-     * Returns settins as a List of Strings.
-     */
+    /** Returns settins as a List of Strings. */
     fun chosenParties() : List<String> {
         val list = mutableListOf<String>()
 

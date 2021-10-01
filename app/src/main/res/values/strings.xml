@@ -12,7 +12,6 @@
     <string name="showAll">Show all</string>
 
 
-
     <!-- Parliament parties -->
     <string name="back">Back</string>
     <string name="kdp">KDP</string>
@@ -25,7 +24,11 @@
     <string name="vas">Vas</string>
     <string name="vihr">Vihr</string>
 
-    <!-- Parliament party names for switch widgets -->
+    <!-- descriptions -->
+    <string name="partyLogo">Party logo</string>
+
+    <!-- SettingsFragment strings -->
+    <string name="age_range">Age range</string>
     <string name="switchkdp">KDP  </string>
     <string name="switchkesk">Kesk  </string>
     <string name="switchkok">Kok  </string>
@@ -35,9 +38,9 @@
     <string name="switchsd">SD  </string>
     <string name="switchvas">Vas  </string>
     <string name="switchvihr">Vihr  </string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
 
-    <!-- descriptions -->
-    <string name="partyLogo">Party logo</string>
 
     <!-- MemberReviewFragment strings -->
     <string name="title_placeholder">A Review</string>

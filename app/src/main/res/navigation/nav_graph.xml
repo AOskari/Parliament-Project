@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/memberListFragment">
 
-    <dialog
+    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.parliamentproject.fragments.SettingsFragment"
         android:label="fragment_settings"
@@ -17,7 +17,7 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
-    </dialog>
+    </fragment>
     <fragment
         android:id="@+id/memberListFragment"
         android:name="com.example.parliamentproject.fragments.MemberListFragment"

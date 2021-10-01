@@ -83,7 +83,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/star2"
-                    app:srcCompat="@drawable/star_filled" />
+                    app:srcCompat="@drawable/star_empty" />
 
                 <ImageView
                     android:id="@+id/star2"
@@ -94,7 +94,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/star1"
                     app:layout_constraintTop_toTopOf="@+id/star3"
-                    app:srcCompat="@drawable/star_filled" />
+                    app:srcCompat="@drawable/star_empty" />
 
                 <ImageView
                     android:id="@+id/star3"
@@ -105,7 +105,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/star2"
                     app:layout_constraintTop_toBottomOf="@+id/comment_view"
-                    app:srcCompat="@drawable/star_filled" />
+                    app:srcCompat="@drawable/star_empty" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
