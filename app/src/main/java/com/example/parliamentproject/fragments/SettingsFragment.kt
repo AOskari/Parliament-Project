@@ -1,27 +1,20 @@
 package com.example.parliamentproject.fragments
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
 import com.example.parliamentproject.data.data_classes.Settings
-import com.example.parliamentproject.data.view_models.*
+import com.example.parliamentproject.data.view_models.SettingsViewModel
+import com.example.parliamentproject.data.view_models.SettingsViewModelFactory
 import com.example.parliamentproject.databinding.FragmentSettingsBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 /** A Fragment subclass, which is used for updating the single Settings object in the Room database. */
@@ -34,7 +27,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Getting or creating an instance of the SettingsViewModel depending if there is one or not.
         settingsViewModelFactory = SettingsViewModelFactory((activity?.application as MPApplication).settingsRepository)

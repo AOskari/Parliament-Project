@@ -15,12 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.parliamentproject.R
 import com.example.parliamentproject.adapters.ReviewListAdapter
 import com.example.parliamentproject.data.MPApplication
-import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.view_models.MemberViewModel
 import com.example.parliamentproject.data.view_models.MemberViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberBinding
 import com.example.parliamentproject.network.MembersApi
-import com.google.gson.Gson
 
 /** A Fragment subclass which displays the data of the chosen Member of Parliament. */
 class MemberFragment : Fragment() {
@@ -42,9 +40,11 @@ class MemberFragment : Fragment() {
         binding.memberReviews.layoutManager = LinearLayoutManager(requireContext())
         binding.memberReviews.setHasFixedSize(true)
 
+        val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+
         // Getting or creating the MemberViewModel instance depending if there is one or not.
         memberViewModelFactory = MemberViewModelFactory((activity?.application as MPApplication).reviewRepository,
-            MemberFragmentArgs.fromBundle(requireArguments()).member)
+            MemberFragmentArgs.fromBundle(requireArguments()).member, sharedPrefs)
         memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
 
         // Applying a reference of the memberViewModel to the binding.
@@ -64,9 +64,6 @@ class MemberFragment : Fragment() {
                 adapter.setData(list)
             }
         })
-
-        // Adding the currently shown Member to the SharedPreferences.
-        recentlyViewedMemberToPrefs(memberViewModel.member)
 
         return binding.root
     }
@@ -100,15 +97,5 @@ class MemberFragment : Fragment() {
             binding.miscBar.visibility = VISIBLE
             binding.addReview.visibility = VISIBLE
         }
-    }
-
-    /** Adds or updates the recently viewed Member object stored in the SharedPreferences. */
-    private fun recentlyViewedMemberToPrefs(member: Member) {
-        val gson = Gson()
-        val sharedPrefs = activity?.getSharedPreferences("prefs", Context.MODE_PRIVATE) ?: return
-        val prefsEditor = sharedPrefs.edit()
-        val json = gson.toJson(member)
-        prefsEditor.putString("recentlyViewedMember", json)
-        prefsEditor.commit()
     }
 }

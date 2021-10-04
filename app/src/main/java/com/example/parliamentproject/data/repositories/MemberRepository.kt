@@ -1,8 +1,6 @@
 package com.example.parliamentproject.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.example.parliamentproject.data.dao.MemberDao
-import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.network.MembersApi
 
 /** A repository containing necessary functions for accessing the member_table. */

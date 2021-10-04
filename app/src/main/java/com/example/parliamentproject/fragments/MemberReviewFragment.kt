@@ -1,31 +1,21 @@
 package com.example.parliamentproject.fragments
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.parliamentproject.R
 import com.example.parliamentproject.data.MPApplication
-import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.data_classes.Review
-import com.example.parliamentproject.data.view_models.MemberViewModel
-import com.example.parliamentproject.data.view_models.MemberViewModelFactory
 import com.example.parliamentproject.data.view_models.ReviewViewModel
 import com.example.parliamentproject.data.view_models.ReviewViewModelFactory
 import com.example.parliamentproject.databinding.FragmentMemberReviewBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 /** A Fragment subclass used for the creation of new Review objects. */
@@ -38,7 +28,7 @@ class MemberReviewFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Setting up the binding.
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_member_review, container, false)

@@ -1,16 +1,19 @@
 package com.example.parliamentproject.data.view_models
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.repositories.ReviewRepository
+import com.google.gson.Gson
 
 /** A ViewModel subclass which contains all the required data used in the fragment and certain functions for retrieving data.
  * @repository: A reference to the ReviewRepository
  * @member: The currently selected Member object in the MemberFragment.m*/
-class MemberViewModel(private val repository: ReviewRepository, val member: Member) : ViewModel() {
+class MemberViewModel(private val repository: ReviewRepository, val member: Member, private val sharedPrefs: SharedPreferences?) : ViewModel() {
 
     var showReviews = false
         private set
@@ -31,6 +34,7 @@ class MemberViewModel(private val repository: ReviewRepository, val member: Memb
 
     init {
         _reviewToggleText.value = "Show Reviews"
+        recentlyViewedMemberToPrefs()
     }
 
 
@@ -59,16 +63,25 @@ class MemberViewModel(private val repository: ReviewRepository, val member: Memb
             else -> ""
         }
     }
+
+    /** Adds or updates the recently viewed Member object stored in the SharedPreferences. */
+    private fun recentlyViewedMemberToPrefs() {
+        val gson = Gson()
+        val prefsEditor = sharedPrefs?.edit()
+        val json = gson.toJson(member)
+        prefsEditor?.putString("recentlyViewedMember", json)
+        prefsEditor?.apply()
+    }
 }
 
 /** A Factory method for creating or getting an instance of the MemberViewModel object.
  * @repository: Required ReviewRepository type parameter for the MemberViewModel.
  * @member: Required Member type parameter for the MemberViewModel. */
-class MemberViewModelFactory(private val repository: ReviewRepository, private val member: Member) : ViewModelProvider.Factory {
+class MemberViewModelFactory(private val repository: ReviewRepository, private val member: Member, private val sharedPrefs: SharedPreferences?) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MemberViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MemberViewModel(repository, member) as T
+            return MemberViewModel(repository, member, sharedPrefs) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -1,12 +1,7 @@
 package com.example.parliamentproject.adapters
 
-import android.text.method.TextKeyListener.clear
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parliamentproject.data.data_classes.Member

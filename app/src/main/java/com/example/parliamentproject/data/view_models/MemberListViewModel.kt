@@ -1,12 +1,10 @@
 package com.example.parliamentproject.data.view_models
 
-import androidx.lifecycle.*
-import com.example.parliamentproject.data.data_classes.Member
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.repositories.MemberRepository
 import com.example.parliamentproject.data.repositories.SettingsRepository
-import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 
 /** A subclass of ViewModel. Provides the necessary data to the MemberListFragment. */
 class MemberListViewModel(private val memberRepository: MemberRepository, private val settingsRepository: SettingsRepository): ViewModel() {

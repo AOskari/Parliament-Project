@@ -1,18 +1,14 @@
 package com.example.parliamentproject.workers
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.parliamentproject.MainActivity
 import com.example.parliamentproject.data.MPApplication
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,6 +50,6 @@ class DatabaseUpdateWorker(context: Context, workerParameters: WorkerParameters)
         val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
         val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date())
         prefsEditor.putString("dbLastUpdated", "$date\n$time")
-        prefsEditor.commit()
+        prefsEditor.apply()
     }
 }

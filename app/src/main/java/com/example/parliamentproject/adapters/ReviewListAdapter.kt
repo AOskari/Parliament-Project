@@ -36,7 +36,7 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewListViewH
 
         // Setting a onClickListener to the title of the row, which expands or collapses whenever it is clicked.
         binding.rowTitle.setOnClickListener {
-            var expandable = reviewList[position]
+            val expandable = reviewList[position]
             expandable.expanded = !expandable.expanded
             notifyItemChanged(position)
         }
