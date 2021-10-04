@@ -7,10 +7,8 @@ import com.example.parliamentproject.data.repositories.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-/**
- * A subclass of Application superclass, for instantiating the MemberDatabase
- * and the MemberRepository. this is used in AndroidManifest.
- */
+/** A subclass of Application superclass, for instantiating the MemberDatabase
+ * and the MemberRepository. this is used in AndroidManifest. */
 class MPApplication : Application() {
 
     private val applicationScope = CoroutineScope(SupervisorJob())

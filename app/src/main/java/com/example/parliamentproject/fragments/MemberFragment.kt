@@ -2,15 +2,13 @@ package com.example.parliamentproject.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.Guideline
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +33,7 @@ class MemberFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // Setting up the binding and adapter for the RecyclerView.
         adapter = ReviewListAdapter()
@@ -49,8 +47,16 @@ class MemberFragment : Fragment() {
             MemberFragmentArgs.fromBundle(requireArguments()).member)
         memberViewModel = ViewModelProvider(this, memberViewModelFactory).get(MemberViewModel::class.java)
 
-        // Setting the UI properties
-        setUIProperties()
+        // Applying a reference of the memberViewModel to the binding.
+        binding.memberViewModel = memberViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        // Gets the image of the chosen MP or gets it from the cache depending if it is cached already.
+        MembersApi.setMemberImage(memberViewModel.member.picture, binding.memberPicture, this)
+
+        // ClickListeners for opening the MemberReviewFragment and expanding the RecyclerView containing Review objects.
+        binding.addReview.setOnClickListener { openReviewFragment() }
+        binding.reviewToggle.setOnClickListener { toggleReviewsDisplay() }
 
         // Setting an observer to the LiveData list of Reviews for updating the reviews.
         memberViewModel.getReviewsByPersonNumber(memberViewModel.member.personNumber).observe(viewLifecycleOwner, { list ->
@@ -65,42 +71,6 @@ class MemberFragment : Fragment() {
         return binding.root
     }
 
-    /** Sets up the UI using the saved properties in the MemberViewModel object. */
-    private fun setUIProperties() {
-
-        val member = memberViewModel.member
-
-        // Gets the image of the chosen MP and caches it.
-        MembersApi.setMemberImage(member.picture, binding.memberPicture, this)
-
-        binding.memberName.text = "${member.displayName()} ${member.personNumber}"
-        binding.partyName.text = member.party
-        binding.ministerInfo2.text = if (member.minister) "Yes" else "No"
-        binding.seatInfo2.text = member.seatNumber.toString()
-        binding.ageInfo2.text = member.age.toString()
-        binding.twitterLink.text = if (member.twitter != "") member.twitter else "No Twitter"
-
-        binding.addReview.setOnClickListener { openReviewFragment() }
-        binding.reviewToggle.setOnClickListener { toggleReviewsDisplay() }
-
-        when (member.party) {
-            "kd" -> setPartyName("Suomen Kristillisdemokraatit")
-            "kesk" -> setPartyName("Suomen Keskusta")
-            "kok" -> setPartyName("Kansallinen Kokoomus")
-            "liik" -> setPartyName("Liike Nyt")
-            "ps" -> setPartyName("Perussuomalaiset")
-            "r" -> setPartyName("Suomen ruotsalainen kansanpuolue")
-            "sd" -> setPartyName("Suomen Sosialidemokraattinen Puolue")
-            "vas" -> setPartyName("Vasemmistoliitto")
-            "vihr" -> setPartyName("Vihreä liitto")
-        }
-    }
-
-
-    /** Sets the party name.
-     * @name the name of the Member's party. */
-    private fun setPartyName(name: String) { binding.partyName.text = name }
-
     /** Opens the MemberReviewFragment with the currently selected Member. */
     private fun openReviewFragment() {
         val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
@@ -110,37 +80,25 @@ class MemberFragment : Fragment() {
     /** Changes the guideline percentage for expanding the RecyclerView containing the reviews. */
     private fun toggleReviewsDisplay() {
         memberViewModel.toggleShowReviews()
-        val guideline : Guideline = binding.guideline6
-        val toggleButton = binding.reviewToggle
-        val image = binding.memberPicture
-        val memberName = binding.memberName
-        val memberParty = binding.partyName
-        val twitterImg = binding.twitterLogo
-        val twitterUrl = binding.twitterLink
-        val miscBar = binding.miscBar
-        val addReview = binding.addReview
-
         if (memberViewModel.showReviews) {
-            guideline.setGuidelinePercent(0.15f)
-            toggleButton.text = "Hide reviews"
-            image.visibility = GONE
-            memberName.visibility = GONE
-            memberParty.visibility = GONE
-            twitterImg.visibility = GONE
-            twitterUrl.visibility = GONE
-            miscBar.visibility = GONE
-            addReview.visibility = GONE
+            binding.guideline6.setGuidelinePercent(0.15f)
+            binding.memberPicture.visibility = GONE
+            binding.memberName.visibility = GONE
+            binding.partyName.visibility = GONE
+            binding.twitterLogo.visibility = GONE
+            binding.twitterLink.visibility = GONE
+            binding.miscBar.visibility = GONE
+            binding.addReview.visibility = GONE
         }
         else {
-            guideline.setGuidelinePercent(0.6f)
-            toggleButton.text = "Expand reviews"
-            image.visibility = VISIBLE
-            memberName.visibility = VISIBLE
-            memberParty.visibility = VISIBLE
-            twitterImg.visibility = VISIBLE
-            twitterUrl.visibility = VISIBLE
-            miscBar.visibility = VISIBLE
-            addReview.visibility = VISIBLE
+            binding.guideline6.setGuidelinePercent(0.6f)
+            binding.memberPicture.visibility = VISIBLE
+            binding.memberName.visibility = VISIBLE
+            binding.partyName.visibility = VISIBLE
+            binding.twitterLogo.visibility = VISIBLE
+            binding.twitterLink.visibility = VISIBLE
+            binding.miscBar.visibility = VISIBLE
+            binding.addReview.visibility = VISIBLE
         }
     }
 

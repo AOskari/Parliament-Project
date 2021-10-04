@@ -59,14 +59,7 @@ class MemberReviewFragment : Fragment() {
      * Goes back to the MemberFragment after saving the content. */
     private fun saveReview() {
 
-        reviewViewModel.rating = when {
-            reviewViewModel.star5Active -> 5
-            reviewViewModel.star4Active -> 4
-            reviewViewModel.star4Active -> 3
-            reviewViewModel.star4Active -> 2
-            reviewViewModel.star4Active -> 1
-            else -> 0
-        }
+        reviewViewModel.setRating()
 
         val review = Review(reviewViewModel.member.personNumber, binding.reviewTitle.text.toString(),
             binding.commentField.text.toString(), reviewViewModel.rating)

@@ -8,10 +8,8 @@ import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-/**
- * The data class used for storing information of Members of Parliament into the Room Database.
- * As the information is retrieved initially in JSON, each variable contains a @Json annotation so that Moshi is able to parse it.
- */
+/** A data class used for defining the rows of Members of Parliament in the Room Database.
+ * As the information is retrieved initially in JSON, each variable contains a @Json annotation so that Moshi is able to parse it. */
 @Parcelize
 @Entity(tableName = "member_table")
 data class Member(

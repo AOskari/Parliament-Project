@@ -16,9 +16,7 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * A Worker subclass, which updates the member_table of the Room Database periodically.
- */
+/** A Worker subclass, which updates the member_table of the Room Database periodically. */
 class DatabaseUpdateWorker(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
 
     private val applicationScope = CoroutineScope(SupervisorJob())
@@ -37,9 +35,7 @@ class DatabaseUpdateWorker(context: Context, workerParameters: WorkerParameters)
         }
     }
 
-    /**
-     * Used for logging whenever the Worker has stopped.
-     */
+    /** Used for logging whenever the Worker has stopped. */
     override fun onStopped() {
         super.onStopped()
         Log.d("Worker", "Worker has stopped.")

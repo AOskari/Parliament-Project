@@ -18,10 +18,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-/**
- * A Singleton class, which is used for getting the instance of the Database.
- * When the singleton is called the first time, the Database will get populated.
- */
+/** A Singleton class, used for getting the instance of the Database.
+ * When the singleton is called the first time, the Database will get populated. */
 @Database(entities = [Member::class, Settings::class, Review::class],
     version = 5, autoMigrations = [
         AutoMigration(from = 1, to = 2),

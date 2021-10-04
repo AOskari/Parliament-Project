@@ -14,10 +14,15 @@ class ReviewViewModel(private val reviewRepository: ReviewRepository, val member
     var rating = 0
 
     var star1Active = false
+        private set
     var star2Active = false
+        private set
     var star3Active = false
+        private set
     var star4Active = false
+        private set
     var star5Active = false
+        private set
 
     val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -26,21 +31,23 @@ class ReviewViewModel(private val reviewRepository: ReviewRepository, val member
 
 
     /** Functions for toggling the starActive Boolean variables. */
-    fun toggleStar1Active() {
-        star1Active = !star1Active
+    fun toggleStar1Active() { star1Active = !star1Active }
+    fun toggleStar2Active() { star2Active = !star2Active }
+    fun toggleStar3Active() { star3Active = !star3Active }
+    fun toggleStar4Active() { star4Active = !star4Active }
+    fun toggleStar5Active() { star5Active = !star5Active }
+
+    fun setRating() {
+        rating = when {
+            star5Active -> 5
+            star4Active -> 4
+            star3Active -> 3
+            star2Active -> 2
+            star1Active -> 1
+            else -> 0
+        }
     }
-    fun toggleStar2Active() {
-        star2Active = !star2Active
-    }
-    fun toggleStar3Active() {
-        star3Active = !star3Active
-    }
-    fun toggleStar4Active() {
-        star4Active = !star4Active
-    }
-    fun toggleStar5Active() {
-        star5Active = !star5Active
-    }
+
 }
 
 /** Used for creating a ReviewVielModel, which has the variables saved in it.*/

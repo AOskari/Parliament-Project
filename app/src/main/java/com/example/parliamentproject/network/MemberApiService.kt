@@ -16,9 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-/**
- * This script uses Retrofit to fetch wanted data from the wanted URL.
- */
+/** This script uses Retrofit to fetch wanted data from the wanted URL. The fetched data is later parsed using Moshi. */
 
 // The destination URL where the data will be fetched.
 private const val URL = " https://users.metropolia.fi/~peterh/"
@@ -54,10 +52,8 @@ object MembersApi {
         retrofit.create(MemberApiService::class.java)
     }
 
-    /**
-     * Fetches the member's image utilizing Glide an setting it in the chosen ImageView.
-     * By default, Glide caches the images.
-     */
+    /** Fetches the member's image utilizing Glide an setting it in the chosen ImageView.
+     * By default, Glide caches the images. */
     fun setMemberImage(endpoint: String, imageView: ImageView, fragment: Fragment) {
         GlideApp.with(fragment)
             .load("$IMG_URL$endpoint")

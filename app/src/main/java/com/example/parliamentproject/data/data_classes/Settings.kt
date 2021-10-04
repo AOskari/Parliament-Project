@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-/** Stores all the settings data. This is stored in the Room Database. */
+/** A data class which defines the single row in the settings_table of the Room Database. */
 @Parcelize
 @Entity(tableName = "settings_table")
 data class Settings (
@@ -22,7 +22,6 @@ data class Settings (
     var minAge : Int = 18,
     var maxAge : Int = 100
         )  : Parcelable {
-
 
     @ColumnInfo(name = "primaryKey", defaultValue = "0")
     @PrimaryKey var i: String = "0"

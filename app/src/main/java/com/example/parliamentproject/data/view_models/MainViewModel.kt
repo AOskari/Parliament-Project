@@ -8,7 +8,7 @@ import com.example.parliamentproject.data.data_classes.Member
 import com.example.parliamentproject.data.data_classes.Settings
 import com.example.parliamentproject.data.repositories.SettingsRepository
 
-/** A ViewModel which contains the necessary data displayed in the MainFragment. */
+/** A ViewModel subclass which contains the necessary data displayed in the MainFragment. */
 class MainViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
 
     var settings = Settings()
