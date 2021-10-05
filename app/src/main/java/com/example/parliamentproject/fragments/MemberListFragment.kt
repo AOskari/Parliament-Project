@@ -47,6 +47,9 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
             (activity?.application as MPApplication).settingsRepository)
         memberListViewModel = ViewModelProvider(this, memberListViewModelFactory).get(MemberListViewModel::class.java)
 
+        binding.memberListViewModel = memberListViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         // Enables the SearchView to be activated by clicking it anywhere.
         binding.searchview.setOnClickListener { binding.searchview.isIconified = false }
 
@@ -78,16 +81,16 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onQueryTextSubmit(query: String): Boolean {
         if (query != "") getMembers(query)
         else {
+            memberListViewModel.updateMembersList(emptyList())
             adapter.setData(emptyList())
-            binding.searchStatus.text = "0 Members found"
         }
         return true
     }
     override fun onQueryTextChange(query: String): Boolean {
         if (query != "") getMembers(query)
         else {
+            memberListViewModel.updateMembersList(emptyList())
             adapter.setData(emptyList())
-            binding.searchStatus.text = "0 Members found"
         }
         return true
     }
@@ -100,8 +103,8 @@ class MemberListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         memberListViewModel.getMembers(searchQuery).observe(this, { list ->
             list.let {
-                adapter.setData(it)
-                binding.searchStatus.text = "${list.size} ${if (it.size == 1) "Member" else "Members"} found"
+                memberListViewModel.updateMembersList(it)
+                adapter.setData(memberListViewModel.membersList.value ?: emptyList())
                 Log.d("observer update called", it.toString())
             }
         })

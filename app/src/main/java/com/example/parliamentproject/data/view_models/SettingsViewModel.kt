@@ -1,5 +1,7 @@
 package com.example.parliamentproject.data.view_models
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.parliamentproject.data.data_classes.Settings
@@ -12,6 +14,14 @@ class SettingsViewModel(private val repository: SettingsRepository) : ViewModel(
 
     var settings = Settings()
     val applicationScope = CoroutineScope(SupervisorJob())
+
+    private val _minAge = MutableLiveData<Int>()
+    val minAge : LiveData<Int>
+        get() = _minAge
+
+    private val _maxAge = MutableLiveData<Int>()
+    val maxAge : LiveData<Int>
+        get() = _maxAge
 
     /** Returns the settings fetched from the Room Database. */
     fun getSettings() = repository.getSettings()

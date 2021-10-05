@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="memberListViewModel"
+            type="com.example.parliamentproject.data.view_models.MemberListViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/memberListFragment"
         android:layout_width="match_parent"
@@ -60,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/century_gothic_font"
-                android:text="@string/members_found"
+                android:text="@{memberListViewModel.foundMembersAmount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/searchview"
