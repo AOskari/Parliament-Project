@@ -6,5 +6,5 @@ This project is an Android application, which fetches Member of Parliament data 
 # MainFragment
 The MainFragment displays an overview of the usage of the application. Basic information of the last viewed Member of Parliament is displayed, as well the last time the SQLite database was updated, and the current settings.
 <p>
-  <img src="https://github.com/AOskari/TMS/blob/master/images/tms_main.jpg" height="550" width="250">
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/main_demo.jpg" height="550" width="250">
 </p>
