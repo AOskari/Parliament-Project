@@ -9,7 +9,6 @@ The MainActivity contains a FragmentContainerView which is navigated according t
 ```
 Navigation to another Fragment.
 
-
 val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
 findNavController().navigate(action)
 ```
