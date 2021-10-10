@@ -6,6 +6,14 @@ This project is an Android application, which fetches Member of Parliament data 
 # Fragments
 The MainActivity contains a FragmentContainerView which is navigated according to the navigation component. The Fragments
 
+```
+Navigation to another Fragment.
+
+
+val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
+findNavController().navigate(action)
+```
+
 <p>
   <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/main_demo.jpg" height="550" width="265">  
   <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/member_list_demo.jpg" height="550" width="265">  
@@ -15,13 +23,6 @@ The MainActivity contains a FragmentContainerView which is navigated according t
   <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/review_demo.jpg" height="550" width="265">  
 </p>
 
-```
-Navigation to another Fragment.
-
-
-val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
-findNavController().navigate(action)
-```
 
 # ViewModel
 ViewModels are used for storing data displayed in the Views. As ViewModels are lifecycle-aware, data displayed in the Views survive configuration changes.
