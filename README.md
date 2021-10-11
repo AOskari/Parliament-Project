@@ -4,10 +4,10 @@ This project implements the Android MVVM and Single-Activity architecture, uses 
 This project is an Android application, which fetches Member of Parliament data from https://avoindata.eduskunta.fi/ and stores the data into a SQLite database. The user is able to search the database by giving an input to a SearchView. In addition, the found MP's can be filtered by party and age. Specific data of the MP can be viewed by clicking the MP's name. The user can also create reviews for the chosen MP.
 
 # Fragments
-The MainActivity contains a FragmentContainerView which is navigated according to the navigation component. The Fragments
+The MainActivity contains a FragmentContainerView which is navigated according to the navigation component. 
 
 ```
-Navigation to another Fragment.
+// Navigation to another Fragment.
 
 val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
 findNavController().navigate(action)
@@ -38,7 +38,7 @@ memberListViewModel = ViewModelProvider(this, memberListViewModelFactory).get(Me
 The database is implemented using Room. DAOs (Data Access Object) are used for accessing and modifying data in the database tables.
 
 ```
-Creation of the database.
+// Creation of the database.
 
 @Volatile
 private var INSTANCE: MemberDatabase? = null
@@ -60,4 +60,23 @@ fun getDatabase(context: Context, scope: CoroutineScope): MemberDatabase {
 }
 ```
 
-     
+# DAO
+Data Access Objects (DAO) are used for accessing and modifying the database.
+
+```
+// A function in the MemberDao interface, which returns a list of Members from the database wrapped in a LiveData object.
+// The parameters are used for querying the wanted members.
+
+@Query("SELECT * FROM member_table WHERE (first || ' ' || last) LIKE :param AND party IN (:parties) AND age >= :minAge AND age <= :maxAge")
+fun getMembers(param: String, parties: List<String>, minAge: Int, maxAge: Int): LiveData<List<Member>>
+```
+
+# WorkManager
+A WorkManager is used for regularly updating the SQLite database.
+```
+// Applying a periodic work request to the WorkManager, which updates the database once a day.
+
+val workRequest = PeriodicWorkRequest.Builder(DatabaseUpdateWorker::class.java, 1, TimeUnit.DAYS).build()
+WorkManager.getInstance(applicationContext)
+    .enqueueUniquePeriodicWork("updateDB", ExistingPeriodicWorkPolicy.KEEP, workRequest)
+```
