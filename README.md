@@ -14,12 +14,12 @@ findNavController().navigate(action)
 ```
 
 <p>
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/main_demo.jpg" height="550" width="265">  
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/member_list_demo.jpg" height="550" width="265">  
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/member_demo.jpg" height="550" width="265">  
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/settings_demo.jpg" height="550" width="265">  
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/review_recycler_demo.jpg" height="550" width="265">  
-  <img src="https://github.com/AOskari/Parliament-Project/blob/master/images/review_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/main_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/member_list_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/member_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/settings_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/review_recycler_demo.jpg" height="550" width="265">  
+  <img src="https://github.com/AOskari/Parliament-Project/blob/master/image/review_demo.jpg" height="550" width="265">  
 </p>
 
 
