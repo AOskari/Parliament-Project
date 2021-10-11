@@ -72,7 +72,7 @@ fun getMembers(param: String, parties: List<String>, minAge: Int, maxAge: Int): 
 ```
 
 # WorkManager
-A WorkManager is used for regularly updating the SQLite database.
+A WorkManager is applied in the MainActivity for regular updates to the SQLite database.
 ```
 // Applying a periodic work request to the WorkManager, which updates the database once a day.
 
