@@ -27,7 +27,7 @@ findNavController().navigate(action)
 ViewModels are used for storing data displayed in the Views. As ViewModels are lifecycle-aware, data displayed in the Views survive configuration changes.
 
 ```
-Instantiation of a ViewModel in a Fragment class.
+// Instantiation of a ViewModel in a Fragment class.
 
 memberListViewModelFactory = MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
             (activity?.application as MPApplication).settingsRepository)
