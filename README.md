@@ -26,7 +26,7 @@ findNavController().navigate(action)
 # ViewModel
 ViewModels are used for storing data displayed in the Views. As ViewModels are lifecycle-aware, data displayed in the Views survive configuration changes.
 
-```
+```kotlin
 // Instantiation of a ViewModel in a Fragment class.
 
 memberListViewModelFactory = MemberListViewModelFactory((activity?.application as MPApplication).memberRepository,
