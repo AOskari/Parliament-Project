@@ -6,7 +6,7 @@ This is an Android application, which fetches Member of Parliament data from htt
 # Fragments
 The MainActivity contains a FragmentContainerView which is navigated according to the navigation component. 
 
-```
+```kotlin
 // Navigation to another Fragment.
 
 val action = MemberFragmentDirections.actionMemberFragmentToMemberReviewFragment(memberViewModel.member)
@@ -37,7 +37,7 @@ memberListViewModel = ViewModelProvider(this, memberListViewModelFactory).get(Me
 # SQLite Database
 The database is implemented using Room. DAOs (Data Access Object) are used for accessing and modifying data in the database tables.
 
-```
+```kotlin
 // Creation of the database.
 
 @Volatile
@@ -63,7 +63,7 @@ fun getDatabase(context: Context, scope: CoroutineScope): MemberDatabase {
 # DAO
 Data Access Objects (DAO) are used for accessing and modifying the database.
 
-```
+```kotlin
 // A function in the MemberDao interface, which returns a list of Members from the database wrapped in a LiveData object.
 // The parameters are used for querying the wanted members.
 
@@ -73,7 +73,7 @@ fun getMembers(param: String, parties: List<String>, minAge: Int, maxAge: Int): 
 
 # WorkManager
 A WorkManager is applied to the MainActivity for regular updates to the SQLite database.
-```
+```kotlin
 // Applying a periodic work request to the WorkManager, which updates the database once a day.
 
 val workRequest = PeriodicWorkRequest.Builder(DatabaseUpdateWorker::class.java, 1, TimeUnit.DAYS).build()
